@@ -24,9 +24,9 @@ public class DemoApplication implements CommandLineRunner {
 	@Qualifier("verdad")
 	Repositorio repo1;
 
-	@Autowired
+	/* @Autowired
 	@Qualifier("mentira")
-	Repositorio repo2;
+	Repositorio repo2; */
 	
 
 
@@ -38,6 +38,6 @@ public class DemoApplication implements CommandLineRunner {
 
 		//srv.guardar();
 		repo1.guardar();
-		repo2.guardar();
+		//repo2.guardar();
 	}
 }
