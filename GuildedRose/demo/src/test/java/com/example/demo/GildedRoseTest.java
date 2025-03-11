@@ -5,6 +5,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 public class GildedRoseTest {
+
+    //Ya dado
+    @Test
+    public void foo(){
+        Item[] items = new Item[] {new Item("foo", 0,0)};
+        GildedRose app = new GildedRose(items);
+        app.updateQuality();
+        assertEquals("foo", items[0].name);
+        
+    }
     
     //Brie
     @Test
@@ -30,6 +40,15 @@ public class GildedRoseTest {
         Item item = new Item("Aged Brie", 1, 50);
         GildedRose app = new GildedRose(new Item[] { item });
         app.updateQuality();
+        assertEquals(50, item.getQuality());
+    }
+
+    @Test
+    public void testBrieNegative(){
+        Item item = new Item("Aged Brie", -1, 49);
+        GildedRose app = new GildedRose(new Item[] { item });
+        app.updateQuality();
+        assertEquals(-2, item.getSellIn());
         assertEquals(50, item.getQuality());
     }
 
@@ -68,6 +87,15 @@ public class GildedRoseTest {
         GildedRose app = new GildedRose(new Item[] { item });
         app.updateQuality();
         assertEquals(0, item.getSellIn());
+        assertEquals(80, item.getQuality());
+    }
+
+    @Test
+    public void testSulfuras2(){
+        Item item = new Item("Sulfuras, Hand of Ragnaros", -5, 80);
+        GildedRose app = new GildedRose(new Item[] { item });
+        app.updateQuality();
+        assertEquals(-5, item.getSellIn());
         assertEquals(80, item.getQuality());
     }
 
