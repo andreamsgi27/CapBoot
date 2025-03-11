@@ -25,7 +25,7 @@ public class ItemTest {
     @Test
     public void ItemTest2() {
         assertAll("UnaFrase",
-        () -> assertEquals("Objeto", item.name),
+        () -> assertEquals("Objeto", item.getName()), //o item.name sirve, así da mejor la cobertura
         () -> assertEquals(5, item.sellIn),
         () -> assertEquals(10, item.quality));
     }
@@ -37,6 +37,22 @@ public class ItemTest {
         assertNotNull(item.name);
         assertTrue(item.quality >= 0);
         assertFalse(item.quality < 0);
+    }
+
+    @Test
+    public void ItemTestSetters() {
+        item.setName("otro nombre");
+        assertEquals("otro nombre", item.name);
+        item.setQuality(12);
+        assertEquals(12, item.quality);
+        item.setSellIn(0);
+        assertEquals(0, item.sellIn);
+    }
+
+    //Probando el método de Item
+    @Test
+    public void testItemToString(){
+        assertEquals("Objeto, 5, 10", item.toString());
     }
 
 
