@@ -152,4 +152,21 @@ public class GildedRoseTest {
         assertEquals(0, item.getQuality());
     } //No sube coverage
 
+    //Conjured - Nueva funcionalidad
+    @Test
+    public void testConjured(){
+        Item item = new Item("Conjured", 3, 6);
+        GildedRose app = new GildedRose(new Item[] { item });
+        app.updateQuality();
+        assertEquals(4, item.getQuality());
+    }
+
+    @Test
+    public void testConjured2(){
+        Item item = new Item("Conjured", 3, 0);
+        GildedRose app = new GildedRose(new Item[] { item });
+        app.updateQuality();
+        assertEquals(0, item.getQuality());
+    }
+
 }
