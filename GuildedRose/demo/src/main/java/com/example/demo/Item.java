@@ -14,6 +14,10 @@ public class Item {
         this.quality = quality;
     }
 
+    public Item(){
+        
+    }
+
 public String getName() {
         return name;
     }

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 public class GildedRoseTest {
     
-    //Tests del Queso
+    //Brie
     @Test
     public void testAgedBrieNormal() {
         Item item = new Item("Aged Brie", 20, 0);
@@ -25,7 +25,15 @@ public class GildedRoseTest {
         assertEquals(4, item.getQuality());
     }
 
-    //TestObjetoComun
+    @Test
+    public void testMaxQualityReachedBrie(){
+        Item item = new Item("Aged Brie", 1, 50);
+        GildedRose app = new GildedRose(new Item[] { item });
+        app.updateQuality();
+        assertEquals(50, item.getQuality());
+    }
+
+    //Objeto Comun
     @Test
     public void testCommonItem() {
         Item item = new Item("Common Item", 20, 5);
@@ -44,14 +52,23 @@ public class GildedRoseTest {
         assertEquals(3, item.getQuality());
     }
 
+    @Test
+    public void testCommonItemReachesMin(){
+        Item item = new Item("Common", 0,0);
+        GildedRose app = new GildedRose(new Item[] { item });
+        app.updateQuality();
+        assertEquals(-1, item.getSellIn());
+        assertEquals(0, item.getQuality());
+    }
+
     //Sulfuras
     @Test
     public void testSulfuras(){
         Item item = new Item("Sulfuras, Hand of Ragnaros", 0, 80);
         GildedRose app = new GildedRose(new Item[] { item });
         app.updateQuality();
-        assertEquals(80, item.getQuality());
         assertEquals(0, item.getSellIn());
+        assertEquals(80, item.getQuality());
     }
 
     //Backstage passes
@@ -90,15 +107,21 @@ public class GildedRoseTest {
 
     @Test
     public void testMaxQualityReached(){
-        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 5, 49);
+        Item item = new Item("Backstage passes to a TAFKAL80ETC concert", 5, 50);
         GildedRose app = new GildedRose(new Item[] { item });
         app.updateQuality();
         assertEquals(50, item.getQuality());
     }
 
     //Otros
-    
-
-
+    @Test
+    public void testEmptyObject(){
+        Item item = new Item();
+        GildedRose app = new GildedRose(new Item[] {});
+        app.updateQuality();
+        assertEquals(null, item.getName());
+        assertEquals(0, item.getSellIn());
+        assertEquals(0, item.getQuality());
+    } //No sube coverage
 
 }
