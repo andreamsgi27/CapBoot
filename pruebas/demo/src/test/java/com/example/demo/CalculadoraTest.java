@@ -164,6 +164,8 @@ class CalculadoraTest {
 		void suplanta2() {
 			var calc = mock(Calculadora.class);
 			when(calc.suma(anyInt(), anyInt())).thenReturn(4);
+
+			
 			var obj = new Factura(calc);
 			var actual = obj.calcularTotal(2, 2);
 			assertEquals(4, actual);

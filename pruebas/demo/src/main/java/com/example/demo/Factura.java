@@ -11,4 +11,8 @@ public class Factura {
 	public double calcularTotal(int cantidad, int precio) {
 		return calculadora.suma(cantidad, precio);
 	}
+
+	public void emitir(){
+		//repository.save();
+	}
 }
