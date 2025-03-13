@@ -1,12 +1,9 @@
 package com.example.demo;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.example.demo.entities.Actor;
-import com.example.demo.repositories.ActorRepository;
 
 @SpringBootApplication
 public class CatalogoApplication implements CommandLineRunner {
@@ -18,56 +15,5 @@ public class CatalogoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.err.println("Catalogo arrancado");
-
-		/* updatearDatos();
-		eliminarDatos();
-		añadirDatos();
-		verDatos(); */
-
-		//ejemplo uso de repository
-		//actorRepository.findAll((root, query, builder) -> builder.lessThanOrEqualTo(root.get("actorId"), 5)).forEach(System.err::println);
-
-		//ejemplo traer desde la base de datos info que aun no hemos empleado la forma directa de acceder, pero teniendo 'actor' accedemos a los datos
-			/* var item = srv.getOne(1).get();
-			if(item.isPresent()){
-				var actor = item.get();
-				System.err.println(item + "\nPeliculas");
-				actor.getFilmActors().forEach(fa-> System.err.println(fa.getFilm().getTitle()));
-			} */
-
 	}
-
-	@Autowired
-	private ActorRepository actorRepository;
-
-		//Muestra por terminal lista de actores
-	private void verDatos(){
-		actorRepository.findAll().forEach(System.err::println);
-	}
-
-		//Añade un actor a la lista
-	private void añadirDatos(){
-		var actor = new Actor(0, "Juan", "Perez");
-		actorRepository.save(actor);
-		actorRepository.findAll().forEach(System.err::println);
-	}
-
-		//Updatea una parte del actor
-	private void updatearDatos(){
-		var item = actorRepository.findById(45);
-		if (item.isPresent()){
-			var actor = item.get();
-			actor.setFirstName("Pepito");
-			actor.setLastName(actor.getLastName().toUpperCase());//coge el que ya había
-			actorRepository.save(actor);
-		} else {
-			System.err.println("No existe el actor");
-		}
-	}
-
-	//Eliminar datos
-	private void eliminarDatos(){
-		actorRepository.deleteById(45);
-	}
-
 }
