@@ -25,7 +25,15 @@ public class CatalogoApplication implements CommandLineRunner {
 		verDatos(); */
 
 		//ejemplo uso de repository
-		actorRepository.findAll((root, query, builder) -> builder.lessThanOrEqualTo(root.get("actorId"), 5)).forEach(System.err::println);
+		//actorRepository.findAll((root, query, builder) -> builder.lessThanOrEqualTo(root.get("actorId"), 5)).forEach(System.err::println);
+
+		//ejemplo traer desde la base de datos info que aun no hemos empleado la forma directa de acceder, pero teniendo 'actor' accedemos a los datos
+			/* var item = srv.getOne(1).get();
+			if(item.isPresent()){
+				var actor = item.get();
+				System.err.println(item + "\nPeliculas");
+				actor.getFilmActors().forEach(fa-> System.err.println(fa.getFilm().getTitle()));
+			} */
 
 	}
 
