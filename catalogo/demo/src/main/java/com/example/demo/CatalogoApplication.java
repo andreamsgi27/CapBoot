@@ -24,7 +24,9 @@ public class CatalogoApplication implements CommandLineRunner {
 		añadirDatos();
 		verDatos(); */
 
-		actorRepository.findByFirstNameStartingWithOrderByLastNameDesc("P").forEach(System.err::println);
+		//ejemplo uso de repository
+		actorRepository.findAll((root, query, builder) -> builder.lessThanOrEqualTo(root.get("actorId"), 5)).forEach(System.err::println);
+
 	}
 
 	@Autowired
