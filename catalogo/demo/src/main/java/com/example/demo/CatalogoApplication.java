@@ -18,10 +18,13 @@ public class CatalogoApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.err.println("Catalogo arrancado");
-		updatearDatos();
+
+		/* updatearDatos();
 		eliminarDatos();
 		añadirDatos();
-		verDatos();
+		verDatos(); */
+
+		actorRepository.findByFirstNameStartingWithOrderByLastNameDesc("P").forEach(System.err::println);
 	}
 
 	@Autowired
