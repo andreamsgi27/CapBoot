@@ -3,6 +3,7 @@ package com.example.demo.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.boot.actuate.autoconfigure.wavefront.WavefrontProperties.Application;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Actor;
@@ -42,8 +43,15 @@ public class ActorServiceImpl implements ActorService {
 
 	@Override
 	public Actor modify(Actor item) throws InvalidDataException {
-		// TODO Auto-generated method stub
-		return null;
+		/* Actor existingActor = actorRepository.findById(actorId)
+		if(item == null) {
+			throw new InvalidDataException("El actor no puede ser nulo");
+		}
+		if(item.getActorId() > 0 && actorRepository.existsById(item.getActorId())) {
+			
+
+		} */
+		return actorRepository.save(item);
 	}
 
 	@Override
