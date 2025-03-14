@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.boot.actuate.autoconfigure.wavefront.WavefrontProperties.Application;
 import org.springframework.stereotype.Service;
-
+import com.example.demo.CatalogoApplication;
 import com.example.demo.entities.Actor;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
@@ -14,10 +14,13 @@ import com.example.demo.repositories.ActorRepository;
 
 @Service
 public class ActorServiceImpl implements ActorService {
+
+    private final CatalogoApplication catalogoApplication;
 	private ActorRepository actorRepository;
 	
-	public ActorServiceImpl(ActorRepository actorRepository) {
+	public ActorServiceImpl(ActorRepository actorRepository, CatalogoApplication catalogoApplication) {
 		this.actorRepository = actorRepository;
+		this.catalogoApplication = catalogoApplication;
 	}
 
 	@Override
@@ -43,15 +46,14 @@ public class ActorServiceImpl implements ActorService {
 
 	@Override
 	public Actor modify(Actor item) throws InvalidDataException {
-		/* Actor existingActor = actorRepository.findById(actorId)
-		if(item == null) {
-			throw new InvalidDataException("El actor no puede ser nulo");
+		Actor existingActor = actorRepository.findById(item.getActorId()).orElse(null);
+		if(existingActor == null) {
+			throw new InvalidDataException("El actor no existe");
+		} else {
+			existingActor.setFirstName(item.getFirstName());
+			existingActor.setLastName(item.getLastName());
+			return actorRepository.save(existingActor);
 		}
-		if(item.getActorId() > 0 && actorRepository.existsById(item.getActorId())) {
-			
-
-		} */
-		return actorRepository.save(item);
 	}
 
 	@Override

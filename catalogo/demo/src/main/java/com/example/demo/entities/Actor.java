@@ -2,6 +2,11 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
@@ -22,6 +27,10 @@ public class Actor implements Serializable {
 	@Column(name="actor_id", unique=true, nullable=false)
 	private int actorId;
 
+	//validaciones
+	@NotBlank
+	@Size(max=45, min = 2)
+	@Pattern (regexp = "^[A-Za-z]*$", message = "El nombre debe estar en formato texto")
 	@Column(name="first_name", nullable=false, length=45)
 	private String firstName;
 
@@ -29,6 +38,7 @@ public class Actor implements Serializable {
 	private String lastName;
 
 	@Column(name="last_update", insertable=false, updatable=false, nullable=false)
+	@PastOrPresent
 	private Timestamp lastUpdate;
 
 	//bi-directional many-to-one association to FilmActor
