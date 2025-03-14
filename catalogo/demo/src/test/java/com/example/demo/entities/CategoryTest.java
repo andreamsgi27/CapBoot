@@ -24,10 +24,4 @@ class CategoryTest {
         assertEquals(2, category.getCategoryId());
         assertEquals("Updated Category", category.getName());
     }
-
-    /* @Test
-    void testToString() {
-        String expected = "Category [categoryId=1, name=Test Category]";
-        assertEquals(expected, category.toString());
-    } */
 }

@@ -27,10 +27,4 @@ class CustomerTest {
         assertEquals("Jane", customer.getFirstName());
         assertEquals("Smith", customer.getLastName());
     }
-
-    /* @Test
-    void testToString() {
-        String expected = "Customer [customerId=1, firstName=John, lastName=Doe]";
-        assertEquals(expected, customer.toString());
-    } */
 }

@@ -24,10 +24,4 @@ class AddressTest {
         assertEquals(2, address.getAddressId());
         assertEquals("456 Elm St", address.getAddress());
     }
-
-   /*  @Test
-    void testToString() {
-        String expected = "Address [addressId=1, address=123 Main St]";
-        assertEquals(expected, address.toString());
-    } */
 }

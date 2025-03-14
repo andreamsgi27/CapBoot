@@ -22,10 +22,4 @@ class FilmActorTest {
 
         assertEquals(pk, filmActor.getId());
     }
-
-    /* @Test
-    void testToString() {
-        String expected = "FilmActor [id=" + filmActor.getId() + "]";
-        assertEquals(expected, filmActor.toString());
-    } */
 }
