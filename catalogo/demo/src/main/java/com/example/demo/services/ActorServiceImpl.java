@@ -4,15 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
-
 import com.example.demo.entities.Actor;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
-import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.repositories.ActorRepository;
 
 @Service
 public class ActorServiceImpl implements ActorService {
+
 	private ActorRepository actorRepository;
 	
 	public ActorServiceImpl(ActorRepository actorRepository) {
@@ -42,26 +41,33 @@ public class ActorServiceImpl implements ActorService {
 
 	@Override
 	public Actor modify(Actor item) throws InvalidDataException {
-		// TODO Auto-generated method stub
-		return null;
+		Actor existingActor = actorRepository.findById(item.getActorId()).orElse(null);
+		if(existingActor == null) {
+			throw new InvalidDataException("El actor no existe");
+		} else {
+			existingActor.setFirstName(item.getFirstName());
+			existingActor.setLastName(item.getLastName());
+			return actorRepository.save(existingActor);
+		}
 	}
 
 	@Override
 	public void delete(Actor item) throws InvalidDataException {
-		// TODO Auto-generated method stub
-
+		Actor existingActor = actorRepository.findById(item.getActorId()).orElse(null);
+		if(existingActor == null) {
+			throw new InvalidDataException("El actor no existe");
+		} else {
+			actorRepository.delete(existingActor);
+		}
 	}
 
 	@Override
-	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
-
+	public void deleteById(Integer id) throws InvalidDataException {
+		Actor existingActor = actorRepository.findById(id).orElse(null);
+		if(existingActor == null) {
+			throw new InvalidDataException("El actor no existe");
+		} else {
+			actorRepository.delete(existingActor);
+		}
 	}
-
-	/* @Override
-	public void repartePremios()  {
-		// TODO Auto-generated method stub
-
-	} */
-
 }

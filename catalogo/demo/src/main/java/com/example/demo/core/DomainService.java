@@ -19,7 +19,7 @@ public interface DomainService<E, K> {
 	
 	void delete(E item) throws InvalidDataException;
 <<<<<<< Updated upstream
-	void deleteById(K id);
+	void deleteById(K id) throws InvalidDataException;
 =======
 
 	void deleteById(K id) throws InvalidDataException;
