@@ -2,12 +2,14 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
-/**
- * The persistent class for the film_text database table.
- * 
- */
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name="film_text")
 @NamedQuery(name="FilmText.findAll", query="SELECT f FROM FilmText f")
@@ -24,32 +26,4 @@ public class FilmText implements Serializable {
 
 	@Column(nullable=false, length=255)
 	private String title;
-
-	public FilmText() {
-	}
-
-	public short getFilmId() {
-		return this.filmId;
-	}
-
-	public void setFilmId(short filmId) {
-		this.filmId = filmId;
-	}
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getTitle() {
-		return this.title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
 }

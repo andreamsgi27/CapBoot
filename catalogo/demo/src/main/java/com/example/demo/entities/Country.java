@@ -2,14 +2,17 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.sql.Timestamp;
 import java.util.List;
 
 
-/**
- * The persistent class for the country database table.
- * 
- */
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name="country")
 @NamedQuery(name="Country.findAll", query="SELECT c FROM Country c")
@@ -30,41 +33,6 @@ public class Country implements Serializable {
 	//bi-directional many-to-one association to City
 	@OneToMany(mappedBy="country")
 	private List<City> cities;
-
-	public Country() {
-	}
-
-	public int getCountryId() {
-		return this.countryId;
-	}
-
-	public void setCountryId(int countryId) {
-		this.countryId = countryId;
-	}
-
-	public String getCountry() {
-		return this.country;
-	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
-	public Timestamp getLastUpdate() {
-		return this.lastUpdate;
-	}
-
-	public void setLastUpdate(Timestamp lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
-	public List<City> getCities() {
-		return this.cities;
-	}
-
-	public void setCities(List<City> cities) {
-		this.cities = cities;
-	}
 
 	public City addCity(City city) {
 		getCities().add(city);

@@ -1,6 +1,10 @@
 package com.example.demo.entities;
 import java.io.Serializable;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 import java.sql.Timestamp;
 import java.util.List;
@@ -10,6 +14,9 @@ import java.util.List;
  * The persistent class for the customer database table.
  *
  */
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name="customer")
 @NamedQuery(name="Customer.findAll", query="SELECT c FROM Customer c")
@@ -57,9 +64,6 @@ public class Customer implements Serializable {
 	//bi-directional many-to-one association to Rental
 	@OneToMany(mappedBy="customer")
 	private List<Rental> rentals;
-
-	public Customer() {
-	}
 
 	public int getCustomerId() {
 		return this.customerId;

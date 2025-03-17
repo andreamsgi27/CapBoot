@@ -2,14 +2,16 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.sql.Timestamp;
 import java.util.List;
 
-
-/**
- * The persistent class for the address database table.
- * 
- */
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name="address")
 @NamedQuery(name="Address.findAll", query="SELECT a FROM Address a")
@@ -56,81 +58,6 @@ public class Address implements Serializable {
 	@OneToMany(mappedBy="address")
 	private List<Store> stores;
 
-	public Address() {
-	}
-
-	public int getAddressId() {
-		return this.addressId;
-	}
-
-	public void setAddressId(int addressId) {
-		this.addressId = addressId;
-	}
-
-	public String getAddress() {
-		return this.address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
-	}
-
-	public String getAddress2() {
-		return this.address2;
-	}
-
-	public void setAddress2(String address2) {
-		this.address2 = address2;
-	}
-
-	public String getDistrict() {
-		return this.district;
-	}
-
-	public void setDistrict(String district) {
-		this.district = district;
-	}
-
-	public Timestamp getLastUpdate() {
-		return this.lastUpdate;
-	}
-
-	public void setLastUpdate(Timestamp lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
-	public String getPhone() {
-		return this.phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getPostalCode() {
-		return this.postalCode;
-	}
-
-	public void setPostalCode(String postalCode) {
-		this.postalCode = postalCode;
-	}
-
-	public City getCity() {
-		return this.city;
-	}
-
-	public void setCity(City city) {
-		this.city = city;
-	}
-
-	public List<Customer> getCustomers() {
-		return this.customers;
-	}
-
-	public void setCustomers(List<Customer> customers) {
-		this.customers = customers;
-	}
-
 	public Customer addCustomer(Customer customer) {
 		getCustomers().add(customer);
 		customer.setAddress(this);
@@ -145,14 +72,6 @@ public class Address implements Serializable {
 		return customer;
 	}
 
-	public List<Staff> getStaffs() {
-		return this.staffs;
-	}
-
-	public void setStaffs(List<Staff> staffs) {
-		this.staffs = staffs;
-	}
-
 	public Staff addStaff(Staff staff) {
 		getStaffs().add(staff);
 		staff.setAddress(this);
@@ -165,14 +84,6 @@ public class Address implements Serializable {
 		staff.setAddress(null);
 
 		return staff;
-	}
-
-	public List<Store> getStores() {
-		return this.stores;
-	}
-
-	public void setStores(List<Store> stores) {
-		this.stores = stores;
 	}
 
 	public Store addStore(Store store) {

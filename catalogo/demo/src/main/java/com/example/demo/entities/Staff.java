@@ -2,14 +2,17 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.sql.Timestamp;
 import java.util.List;
 
 
-/**
- * The persistent class for the staff database table.
- * 
- */
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name="staff")
 @NamedQuery(name="Staff.findAll", query="SELECT s FROM Staff s")
@@ -67,89 +70,6 @@ public class Staff implements Serializable {
 	@OneToMany(mappedBy="staff")
 	private List<Store> stores;
 
-	public Staff() {
-	}
-
-	public byte getStaffId() {
-		return this.staffId;
-	}
-
-	public void setStaffId(byte staffId) {
-		this.staffId = staffId;
-	}
-
-	public byte getActive() {
-		return this.active;
-	}
-
-	public void setActive(byte active) {
-		this.active = active;
-	}
-
-	public String getEmail() {
-		return this.email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getFirstName() {
-		return this.firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return this.lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public Timestamp getLastUpdate() {
-		return this.lastUpdate;
-	}
-
-	public void setLastUpdate(Timestamp lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public byte[] getPicture() {
-		return this.picture;
-	}
-
-	public void setPicture(byte[] picture) {
-		this.picture = picture;
-	}
-
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public List<Payment> getPayments() {
-		return this.payments;
-	}
-
-	public void setPayments(List<Payment> payments) {
-		this.payments = payments;
-	}
-
 	public Payment addPayment(Payment payment) {
 		getPayments().add(payment);
 		payment.setStaff(this);
@@ -162,14 +82,6 @@ public class Staff implements Serializable {
 		payment.setStaff(null);
 
 		return payment;
-	}
-
-	public List<Rental> getRentals() {
-		return this.rentals;
-	}
-
-	public void setRentals(List<Rental> rentals) {
-		this.rentals = rentals;
 	}
 
 	public Rental addRental(Rental rental) {
@@ -186,30 +98,6 @@ public class Staff implements Serializable {
 		return rental;
 	}
 
-	public Address getAddress() {
-		return this.address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public Store getStore() {
-		return this.store;
-	}
-
-	public void setStore(Store store) {
-		this.store = store;
-	}
-
-	public List<Store> getStores() {
-		return this.stores;
-	}
-
-	public void setStores(List<Store> stores) {
-		this.stores = stores;
-	}
-
 	public Store addStore(Store store) {
 		getStores().add(store);
 		store.setStaff(this);
@@ -223,5 +111,4 @@ public class Staff implements Serializable {
 
 		return store;
 	}
-
 }

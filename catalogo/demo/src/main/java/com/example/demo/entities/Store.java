@@ -14,12 +14,13 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedQuery;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-
-/**
- * The persistent class for the store database table.
- * 
- */
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name="store")
 @NamedQuery(name="Store.findAll", query="SELECT s FROM Store s")
@@ -56,33 +57,6 @@ public class Store implements Serializable {
 	@JoinColumn(name="manager_staff_id", nullable=false)
 	private Staff staff;
 
-	public Store() {
-	}
-
-	public byte getStoreId() {
-		return this.storeId;
-	}
-
-	public void setStoreId(byte storeId) {
-		this.storeId = storeId;
-	}
-
-	public Timestamp getLastUpdate() {
-		return this.lastUpdate;
-	}
-
-	public void setLastUpdate(Timestamp lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
-	public List<Customer> getCustomers() {
-		return this.customers;
-	}
-
-	public void setCustomers(List<Customer> customers) {
-		this.customers = customers;
-	}
-
 	public Customer addCustomer(Customer customer) {
 		getCustomers().add(customer);
 		customer.setStore(this);
@@ -95,14 +69,6 @@ public class Store implements Serializable {
 		customer.setStore(null);
 
 		return customer;
-	}
-
-	public List<Inventory> getInventories() {
-		return this.inventories;
-	}
-
-	public void setInventories(List<Inventory> inventories) {
-		this.inventories = inventories;
 	}
 
 	public Inventory addInventory(Inventory inventory) {
@@ -119,14 +85,6 @@ public class Store implements Serializable {
 		return inventory;
 	}
 
-	public List<Staff> getStaffs() {
-		return this.staffs;
-	}
-
-	public void setStaffs(List<Staff> staffs) {
-		this.staffs = staffs;
-	}
-
 	public Staff addStaff(Staff staff) {
 		getStaffs().add(staff);
 		staff.setStore(this);
@@ -140,21 +98,4 @@ public class Store implements Serializable {
 
 		return staff;
 	}
-
-	public Address getAddress() {
-		return this.address;
-	}
-
-	public void setAddress(Address address) {
-		this.address = address;
-	}
-
-	public Staff getStaff() {
-		return this.staff;
-	}
-
-	public void setStaff(Staff staff) {
-		this.staff = staff;
-	}
-
 }

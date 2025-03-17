@@ -2,15 +2,18 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.math.BigDecimal;
 import java.util.Date;
 import java.sql.Timestamp;
 
 
-/**
- * The persistent class for the payment database table.
- * 
- */
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name="payment")
 @NamedQuery(name="Payment.findAll", query="SELECT p FROM Payment p")
@@ -46,64 +49,4 @@ public class Payment implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="staff_id", nullable=false)
 	private Staff staff;
-
-	public Payment() {
-	}
-
-	public int getPaymentId() {
-		return this.paymentId;
-	}
-
-	public void setPaymentId(int paymentId) {
-		this.paymentId = paymentId;
-	}
-
-	public BigDecimal getAmount() {
-		return this.amount;
-	}
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-
-	public Timestamp getLastUpdate() {
-		return this.lastUpdate;
-	}
-
-	public void setLastUpdate(Timestamp lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
-	public Date getPaymentDate() {
-		return this.paymentDate;
-	}
-
-	public void setPaymentDate(Date paymentDate) {
-		this.paymentDate = paymentDate;
-	}
-
-	public Customer getCustomer() {
-		return this.customer;
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
-
-	public Rental getRental() {
-		return this.rental;
-	}
-
-	public void setRental(Rental rental) {
-		this.rental = rental;
-	}
-
-	public Staff getStaff() {
-		return this.staff;
-	}
-
-	public void setStaff(Staff staff) {
-		this.staff = staff;
-	}
-
 }

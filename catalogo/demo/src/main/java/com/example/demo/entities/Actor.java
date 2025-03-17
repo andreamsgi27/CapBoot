@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -16,6 +19,9 @@ import java.util.Objects;
  * The persistent class for the actor database table.
  * 
  */
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name="actor")
 @NamedQuery(name="Actor.findAll", query="SELECT a FROM Actor a")
@@ -45,9 +51,6 @@ public class Actor implements Serializable {
 	@OneToMany(mappedBy="actor")
 	private List<FilmActor> filmActors;
 
-	public Actor() {
-	}
-
 	public Actor(int actorId, String firstName, String lastName) {
 		super();
 		this.actorId = actorId;
@@ -58,46 +61,6 @@ public class Actor implements Serializable {
 	public Actor(int actorId) {
 		super();
 		this.actorId = actorId;
-	}
-
-	public int getActorId() {
-		return this.actorId;
-	}
-
-	public void setActorId(int actorId) {
-		this.actorId = actorId;
-	}
-
-	public String getFirstName() {
-		return this.firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return this.lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public Timestamp getLastUpdate() {
-		return this.lastUpdate;
-	}
-
-	public void setLastUpdate(Timestamp lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
-	public List<FilmActor> getFilmActors() {
-		return this.filmActors;
-	}
-
-	public void setFilmActors(List<FilmActor> filmActors) {
-		this.filmActors = filmActors;
 	}
 
 	public FilmActor addFilmActor(FilmActor filmActor) {

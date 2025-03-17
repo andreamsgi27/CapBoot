@@ -2,13 +2,16 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.sql.Timestamp;
 
 
-/**
- * The persistent class for the film_category database table.
- * 
- */
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name="film_category")
 @NamedQuery(name="FilmCategory.findAll", query="SELECT f FROM FilmCategory f")
@@ -30,40 +33,4 @@ public class FilmCategory implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="film_id", nullable=false, insertable=false, updatable=false)
 	private Film film;
-
-	public FilmCategory() {
-	}
-
-	public FilmCategoryPK getId() {
-		return this.id;
-	}
-
-	public void setId(FilmCategoryPK id) {
-		this.id = id;
-	}
-
-	public Timestamp getLastUpdate() {
-		return this.lastUpdate;
-	}
-
-	public void setLastUpdate(Timestamp lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
-
-	public Category getCategory() {
-		return this.category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
-
-	public Film getFilm() {
-		return this.film;
-	}
-
-	public void setFilm(Film film) {
-		this.film = film;
-	}
-
 }
