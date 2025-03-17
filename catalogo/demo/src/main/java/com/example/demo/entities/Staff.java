@@ -2,6 +2,11 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,24 +32,35 @@ public class Staff implements Serializable {
 	@Column(nullable=false)
 	private byte active;
 
+	@Email(message = "El correo electrónico no es válido")
 	@Column(length=50)
 	private String email;
 
+	@NotBlank(message = "El nombre no puede estar vacío")
+	@Size(min = 2, max = 45, message = "El nombre debe tener entre 2 y 45 caracteres")
+	@Pattern(regexp = "^[A-Za-z ]+$", message = "El nombre solo puede contener letras y espacios")
 	@Column(name="first_name", nullable=false, length=45)
 	private String firstName;
 
+	@NotBlank(message = "El apellido no puede estar vacío")
+	@Size(min = 2, max = 45, message = "El apellido debe tener entre 2 y 45 caracteres")
+	@Pattern(regexp = "^[A-Za-z ]+$", message = "El apellido solo puede contener letras y espacios")
 	@Column(name="last_name", nullable=false, length=45)
 	private String lastName;
 
+	@PastOrPresent(message = "La fecha de última actualización no puede ser futura")
 	@Column(name="last_update", nullable=false)
 	private Timestamp lastUpdate;
 
+	@Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
 	@Column(length=40)
 	private String password;
 
 	@Lob
 	private byte[] picture;
 
+	@NotBlank(message = "El nombre de usuario no puede estar vacío")
+	@Size(min = 5, max = 16, message = "El nombre de usuario debe tener entre 5 y 16 caracteres")
 	@Column(nullable=false, length=16)
 	private String username;
 

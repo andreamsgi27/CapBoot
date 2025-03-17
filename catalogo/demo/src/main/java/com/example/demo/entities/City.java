@@ -2,6 +2,9 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,11 +27,14 @@ public class City implements Serializable {
 	@Column(name="city_id", unique=true, nullable=false)
 	private int cityId;
 
+	@NotBlank(message = "El nombre de la ciudad no puede estar vacío")
+	@Size(max = 50, message = "El nombre de la ciudad no puede tener más de 50 caracteres")
 	@Column(nullable=false, length=50)
 	private String city;
 
-	@Column(name="last_update", nullable=false)
-	private Timestamp lastUpdate;
+	@PastOrPresent(message = "La fecha de actualización no puede estar en el futuro")
+    @Column(name="last_update", nullable=false)
+    private Timestamp lastUpdate;
 
 	//bi-directional many-to-one association to Address
 	@OneToMany(mappedBy="city")
