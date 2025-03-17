@@ -34,18 +34,32 @@ public class LanguageServiceImpl implements LanguageService {
 
     @Override
 	public Language modify(Language item) throws InvalidDataException {
-			return item;
+		Language existingLanguage = languageRepository.findById(item.getLanguageId()).orElse(null);
+		if(existingLanguage == null) {
+			throw new InvalidDataException("El actor no existe");
+		} else {
+			existingLanguage.setName(item.getName());
+			return languageRepository.save(existingLanguage);
+		}
 	}
 
 	@Override
 	public void delete(Language item) throws InvalidDataException {
-		// TODO Auto-generated method stub
-
+		Language existingLanguage = languageRepository.findById(item.getLanguageId()).orElse(null);
+		if(existingLanguage == null) {
+			throw new InvalidDataException("El actor no existe");
+		} else {
+			languageRepository.delete(existingLanguage);
+		}
 	}
 
 	@Override
-	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
-
+	public void deleteById(Integer id) throws InvalidDataException{
+		Language existingLanguage = languageRepository.findById(id).orElse(null);
+		if(existingLanguage == null) {
+			throw new InvalidDataException("El actor no existe");
+		} else {
+			languageRepository.delete(existingLanguage);
+		}
 	}
 }
