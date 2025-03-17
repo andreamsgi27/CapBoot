@@ -11,10 +11,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 
-/**
- * The persistent class for the film database table.
- * 
- */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
