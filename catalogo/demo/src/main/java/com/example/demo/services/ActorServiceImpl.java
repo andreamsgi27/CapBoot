@@ -41,33 +41,37 @@ public class ActorServiceImpl implements ActorService {
 
 	@Override
 	public Actor modify(Actor item) throws InvalidDataException {
-		Actor existingActor = actorRepository.findById(item.getActorId()).orElse(null);
-		if(existingActor == null) {
-			throw new InvalidDataException("El actor no existe");
-		} else {
-			existingActor.setFirstName(item.getFirstName());
-			existingActor.setLastName(item.getLastName());
-			return actorRepository.save(existingActor);
+		if (item == null) {
+			throw new InvalidDataException("El actor no puede ser nulo");
 		}
+
+		Actor existingActor = actorRepository.findById(item.getActorId()).orElseThrow(() -> new InvalidDataException("El actor no existe"));
+
+		existingActor.setFirstName(item.getFirstName());
+		existingActor.setLastName(item.getLastName());
+
+		return actorRepository.save(existingActor);
 	}
 
 	@Override
 	public void delete(Actor item) throws InvalidDataException {
-		Actor existingActor = actorRepository.findById(item.getActorId()).orElse(null);
-		if(existingActor == null) {
-			throw new InvalidDataException("El actor no existe");
-		} else {
-			actorRepository.delete(existingActor);
+		if (item == null) {
+			throw new InvalidDataException("El actor no puede ser nulo");
 		}
+
+		Actor existingActor = actorRepository.findById(item.getActorId()).orElseThrow(() -> new InvalidDataException("El actor no existe"));
+
+		actorRepository.delete(existingActor);
 	}
 
 	@Override
 	public void deleteById(Integer id) throws InvalidDataException {
-		Actor existingActor = actorRepository.findById(id).orElse(null);
-		if(existingActor == null) {
-			throw new InvalidDataException("El actor no existe");
-		} else {
-			actorRepository.delete(existingActor);
+		if (id == null) {
+			throw new InvalidDataException("El ID no puede ser nulo");
 		}
+
+		Actor existingActor = actorRepository.findById(id).orElseThrow(() -> new InvalidDataException("El actor no existe"));
+
+		actorRepository.delete(existingActor);
 	}
 }
