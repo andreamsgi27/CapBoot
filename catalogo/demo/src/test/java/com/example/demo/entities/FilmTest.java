@@ -11,7 +11,6 @@ class FilmTest {
 
     @BeforeEach
     void setUp() {
-        film = new Film();
         film.setFilmId(1);
         film.setTitle("Test Film");
     }

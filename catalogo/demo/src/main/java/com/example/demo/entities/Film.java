@@ -2,6 +2,8 @@ package com.example.demo.entities;
 
 import java.io.Serializable;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
  * The persistent class for the film database table.
  * 
  */
+@AllArgsConstructor
 @Entity
 @Table(name="film")
 @NamedQuery(name="Film.findAll", query="SELECT f FROM Film f")
@@ -69,9 +72,6 @@ public class Film implements Serializable {
 	//bi-directional many-to-one association to Inventory
 	@OneToMany(mappedBy="film")
 	private List<Inventory> inventories;
-
-	public Film() {
-	}
 
 	public int getFilmId() {
 		return this.filmId;
