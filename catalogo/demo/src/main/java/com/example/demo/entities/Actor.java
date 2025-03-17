@@ -15,10 +15,6 @@ import java.util.List;
 import java.util.Objects;
 
 
-/**
- * The persistent class for the actor database table.
- * 
- */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -34,17 +30,20 @@ public class Actor implements Serializable {
 	private int actorId;
 
 	//validaciones
-	@NotBlank
-	@Size(max=45, min = 2)
-	@Pattern (regexp = "^[A-Za-z]*$", message = "El nombre debe estar en formato texto")
+	@NotBlank(message = "El nombre no puede estar vacío")
+	@Size(min = 2, max = 45, message = "El nombre debe tener entre 2 y 45 caracteres")
+	@Pattern(regexp = "^[A-Za-z]+$", message = "El nombre debe contener solo letras")
 	@Column(name="first_name", nullable=false, length=45)
 	private String firstName;
 
+	@NotBlank(message = "El apellido no puede estar vacío")
+	@Size(min = 2, max = 45, message = "El apellido debe tener entre 2 y 45 caracteres")
+	@Pattern(regexp = "^[A-Za-z]+$", message = "El apellido debe contener solo letras")
 	@Column(name="last_name", nullable=false, length=45)
 	private String lastName;
 
+	@PastOrPresent(message = "La fecha de última actualización no puede ser futura")
 	@Column(name="last_update", insertable=false, updatable=false, nullable=false)
-	@PastOrPresent
 	private Timestamp lastUpdate;
 
 	//bi-directional many-to-one association to FilmActor
@@ -56,11 +55,6 @@ public class Actor implements Serializable {
 		this.actorId = actorId;
 		this.firstName = firstName;
 		this.lastName = lastName;
-	}
-
-	public Actor(int actorId) {
-		super();
-		this.actorId = actorId;
 	}
 
 	public FilmActor addFilmActor(FilmActor filmActor) {
@@ -98,14 +92,5 @@ public class Actor implements Serializable {
 	public String toString() {
 		return "Actor [actorId=" + actorId + ", firstName=" + firstName + ", lastName=" + lastName + ", lastUpdate="
 				+ lastUpdate + "]";
-	}
-
-	public void jubilate() {
-		// pon active a false
-		// pon fecha de baja a la fecha actual
-	}
-
-	public void premioRecibido(String premio) {
-		// ...
 	}
 }
