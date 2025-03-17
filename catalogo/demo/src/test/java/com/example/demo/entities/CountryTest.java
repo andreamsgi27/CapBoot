@@ -2,6 +2,10 @@ package com.example.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,21 +17,38 @@ class CountryTest {
     void setUp() {
         country = new Country();
         country.setCountryId(1);
-        country.setCountry("Test Country");
+        country.setCountry("Spain");
+        country.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        country.setCities(new ArrayList<>());
     }
 
     @Test
     void testGettersAndSetters() {
         country.setCountryId(2);
-        country.setCountry("Updated Country");
+        country.setCountry("France");
+        country.setLastUpdate(new Timestamp(System.currentTimeMillis()));
 
         assertEquals(2, country.getCountryId());
-        assertEquals("Updated Country", country.getCountry());
+        assertEquals("France", country.getCountry());
+        assertNotNull(country.getLastUpdate());
     }
 
-    /* @Test
-    void testToString() {
-        String expected = "Country [countryId=1, country=Test Country]";
-        assertEquals(expected, country.toString());
-    } */
+    @Test
+    void testAddCity() {
+        City city = new City();
+        country.addCity(city);
+
+        assertEquals(1, country.getCities().size());
+        assertEquals(country, city.getCountry());
+    }
+
+    @Test
+    void testRemoveCity() {
+        City city = new City();
+        country.addCity(city);
+        country.removeCity(city);
+
+        assertTrue(country.getCities().isEmpty());
+        assertNull(city.getCountry());
+    }
 }

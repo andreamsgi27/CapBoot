@@ -2,6 +2,9 @@ package com.example.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.sql.Timestamp;
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,18 +16,43 @@ class InventoryTest {
     void setUp() {
         inventory = new Inventory();
         inventory.setInventoryId(1);
+        inventory.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        inventory.setFilm(new Film());
+        inventory.setStore(new Store());
+        inventory.setRentals(new ArrayList<>());
     }
 
     @Test
     void testGettersAndSetters() {
         inventory.setInventoryId(2);
+        inventory.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        Film film = new Film();
+        Store store = new Store();
+        inventory.setFilm(film);
+        inventory.setStore(store);
 
         assertEquals(2, inventory.getInventoryId());
+        assertNotNull(inventory.getLastUpdate());
+        assertEquals(film, inventory.getFilm());
+        assertEquals(store, inventory.getStore());
     }
 
-    /* @Test
-    void testToString() {
-        String expected = "Inventory [inventoryId=1]";
-        assertEquals(expected, inventory.toString());
-    } */
+    @Test
+    void testAddRental() {
+        Rental rental = new Rental();
+        inventory.addRental(rental);
+
+        assertEquals(1, inventory.getRentals().size());
+        assertEquals(inventory, rental.getInventory());
+    }
+
+    @Test
+    void testRemoveRental() {
+        Rental rental = new Rental();
+        inventory.addRental(rental);
+        inventory.removeRental(rental);
+
+        assertTrue(inventory.getRentals().isEmpty());
+        assertNull(rental.getInventory());
+    }
 }
