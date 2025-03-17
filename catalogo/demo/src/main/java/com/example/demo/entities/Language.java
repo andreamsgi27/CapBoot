@@ -10,10 +10,6 @@ import java.sql.Timestamp;
 import java.util.List;
 
 
-/**
- * The persistent class for the language database table.
- * 
- */
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
