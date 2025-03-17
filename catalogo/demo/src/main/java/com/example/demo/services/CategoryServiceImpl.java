@@ -34,19 +34,38 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
 	public Category modify(Category item) throws InvalidDataException {
-		// TODO Auto-generated method stub
-		return null;
+		if (item == null) {
+			throw new InvalidDataException("La película no puede ser nula");
+		}
+
+		categoryRepository.findById(item.getCategoryId())
+				.orElseThrow(() -> new InvalidDataException("La película no existe"));
+
+		return categoryRepository.save(item);
 	}
 
 	@Override
 	public void delete(Category item) throws InvalidDataException {
-		// TODO Auto-generated method stub
+		if (item == null) {
+            throw new InvalidDataException("La película no puede ser nula");
+        }
 
-	}
+        categoryRepository.findById(item.getCategoryId())
+                .orElseThrow(() -> new InvalidDataException("La película no existe"));
+
+				categoryRepository.delete(item);
+    }
+
 
 	@Override
-	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+	public void deleteById(Integer id) throws InvalidDataException {
+		if (id == null) {
+            throw new InvalidDataException("La película no puede ser nula");
+        }
 
-	}
+        Category existingCategory = categoryRepository.findById(id)
+                .orElseThrow(() -> new InvalidDataException("La película no existe"));
+
+				categoryRepository.delete(existingCategory);
+    }
 }

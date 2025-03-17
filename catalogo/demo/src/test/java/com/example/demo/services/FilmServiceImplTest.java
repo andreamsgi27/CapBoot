@@ -11,11 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.example.demo.entities.Film;
-import com.example.demo.entities.Language;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.repositories.FilmRepository;
-import com.example.demo.repositories.LanguageRepository;
 
 public class FilmServiceImplTest {
 

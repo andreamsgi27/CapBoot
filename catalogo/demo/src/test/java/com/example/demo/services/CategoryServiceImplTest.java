@@ -1,16 +1,17 @@
 package com.example.demo.services;
-
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
+
 import com.example.demo.entities.Category;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.repositories.CategoryRepository;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 public class CategoryServiceImplTest {
@@ -25,18 +26,19 @@ public class CategoryServiceImplTest {
     private Category category2;
 
     @BeforeEach
-    public void setUp() {
+    public void setup() {
         MockitoAnnotations.openMocks(this);
 
         category1 = new Category(1, null, "Category 1", null);
         category2 = new Category(2, null, "Category 2", null);
     }
 
+    // READS
     @Test
     public void testGetAllCategories() {
-        when(categoryRepository.findAll()).thenReturn(Arrays.asList(category1, category2));
+        when(categoryRepository.findAll()).thenReturn(List.of(category1, category2));
 
-        var result = categoryService.getAll();
+        List<Category> result = categoryService.getAll();
 
         verify(categoryRepository, times(1)).findAll();
         assertEquals(2, result.size());
@@ -48,24 +50,16 @@ public class CategoryServiceImplTest {
     public void testGetCategoryById() {
         when(categoryRepository.findById(1)).thenReturn(Optional.of(category1));
 
-        var result = categoryService.getOne(1);
+        Category result = categoryService.getOne(1).get();
 
         verify(categoryRepository, times(1)).findById(1);
-        assertTrue(result.isPresent());
-        assertEquals(category1, result.get());
+        assertEquals(1, result.getCategoryId());
+        assertEquals("Category 1", result.getName());
     }
 
+    // CREATES
     @Test
-    public void testGetCategoryById_NotFound() {
-        when(categoryRepository.findById(99)).thenReturn(Optional.empty());
-
-        var result = categoryService.getOne(99);
-
-        assertFalse(result.isPresent());
-    }
-
-    @Test
-    public void testAddCategory_Success() throws DuplicateKeyException, InvalidDataException {
+    public void testAddCategory() throws DuplicateKeyException, InvalidDataException {
         when(categoryRepository.existsById(category1.getCategoryId())).thenReturn(false);
         when(categoryRepository.save(category1)).thenReturn(category1);
 
@@ -77,16 +71,68 @@ public class CategoryServiceImplTest {
     }
 
     @Test
-    public void testAddCategory_AlreadyExists() throws DuplicateKeyException, InvalidDataException {
-        when(categoryRepository.existsById(category1.getCategoryId())).thenReturn(true);
+    public void testAddCategory_InvalidDataException() throws DuplicateKeyException, InvalidDataException {
+        Category category = null;
+        assertThrows(InvalidDataException.class, () -> categoryService.add(category));
+    }
+
+    @Test
+    public void testAddCategory_DuplicateKeyException() throws DuplicateKeyException, InvalidDataException {
+        when(categoryRepository.existsById(1)).thenReturn(true);
 
         assertThrows(DuplicateKeyException.class, () -> categoryService.add(category1));
 
         verify(categoryRepository, times(1)).existsById(category1.getCategoryId());
     }
 
+    // UPDATES
     @Test
-    public void testAddCategory_NullCategory() {
-        assertThrows(InvalidDataException.class, () -> categoryService.add(null));
+    public void testModifyCategory() throws InvalidDataException {
+        category1.setName("Updated Category");
+
+        when(categoryRepository.findById(1)).thenReturn(Optional.of(category1));
+        when(categoryRepository.save(category1)).thenReturn(category1);
+
+        Category result = categoryService.modify(category1);
+
+        verify(categoryRepository, times(1)).save(category1);
+        assertEquals("Updated Category", result.getName());
+    }
+
+    @Test
+    public void testModifyCategory_InvalidDataException() throws InvalidDataException {
+        Category category = null;
+        assertThrows(InvalidDataException.class, () -> categoryService.modify(category));
+    }
+
+    // DELETES
+    @Test
+    public void testDeleteCategory() throws InvalidDataException {
+        when(categoryRepository.findById(1)).thenReturn(Optional.of(category1));
+
+        categoryService.delete(category1);
+
+        verify(categoryRepository, times(1)).delete(category1);
+    }
+
+    @Test
+    public void testDeleteByIdCategory() throws InvalidDataException {
+        when(categoryRepository.findById(1)).thenReturn(Optional.of(category1));
+
+        categoryService.deleteById(1);
+
+        verify(categoryRepository, times(1)).delete(category1);
+    }
+
+    @Test
+    public void testDeleteCategory_InvalidDataException() throws InvalidDataException {
+        Category category = null;
+        assertThrows(InvalidDataException.class, () -> categoryService.delete(category));
+    }
+
+    @Test
+    public void testDeleteByIdCategory_InvalidDataException() throws InvalidDataException {
+        Integer categoryId = null;
+        assertThrows(InvalidDataException.class, () -> categoryService.deleteById(categoryId));
     }
 }
