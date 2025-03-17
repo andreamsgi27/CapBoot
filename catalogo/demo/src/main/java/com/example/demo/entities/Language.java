@@ -35,7 +35,11 @@ public class Language implements Serializable {
 	@OneToMany(mappedBy="languageVO")
 	private List<Film> filmsVO;
 
-	public Language() {
+
+	//Constructor
+	public Language(int languageId, String name) {
+		this.languageId = languageId;
+		this.name = name;
 	}
 
 	public int getLanguageId() {

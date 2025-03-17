@@ -3,13 +3,21 @@ package com.example.demo.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
 import com.example.demo.entities.Language;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.repositories.LanguageRepository;
 
+@Service
 public class LanguageServiceImpl implements LanguageService {
+	
     private LanguageRepository languageRepository;
+
+	public LanguageServiceImpl(LanguageRepository languageRepository) {
+		this.languageRepository = languageRepository;
+	}
 
     @Override
     public List<Language> getAll() {
@@ -34,32 +42,32 @@ public class LanguageServiceImpl implements LanguageService {
 
     @Override
 	public Language modify(Language item) throws InvalidDataException {
-		Language existingLanguage = languageRepository.findById(item.getLanguageId()).orElse(null);
-		if(existingLanguage == null) {
-			throw new InvalidDataException("El actor no existe");
-		} else {
-			existingLanguage.setName(item.getName());
-			return languageRepository.save(existingLanguage);
+		if (item == null) {
+			throw new InvalidDataException("El idioma no puede ser nulo");
 		}
+
+		Language existingLanguage = languageRepository.findById(item.getLanguageId()).orElseThrow(() -> new InvalidDataException("El idioma no existe"));
+
+		existingLanguage.setName(item.getName());
+
+		return languageRepository.save(item);
 	}
 
 	@Override
 	public void delete(Language item) throws InvalidDataException {
-		Language existingLanguage = languageRepository.findById(item.getLanguageId()).orElse(null);
-		if(existingLanguage == null) {
-			throw new InvalidDataException("El actor no existe");
-		} else {
-			languageRepository.delete(existingLanguage);
+		if (item == null) {
+			throw new InvalidDataException("El idioma no puede ser nulo");
 		}
+		Language existingLanguage = languageRepository.findById(item.getLanguageId()).orElseThrow(() -> new InvalidDataException("El idioma no existe"));
+		languageRepository.delete(existingLanguage);
 	}
 
 	@Override
 	public void deleteById(Integer id) throws InvalidDataException{
-		Language existingLanguage = languageRepository.findById(id).orElse(null);
-		if(existingLanguage == null) {
-			throw new InvalidDataException("El actor no existe");
-		} else {
-			languageRepository.delete(existingLanguage);
+		if (id == null) {
+			throw new InvalidDataException("El ID no puede ser nulo");
 		}
+		Language existingLanguage = languageRepository.findById(id).orElseThrow(() -> new InvalidDataException("El idioma no existe"));
+		languageRepository.delete(existingLanguage);
 	}
 }
