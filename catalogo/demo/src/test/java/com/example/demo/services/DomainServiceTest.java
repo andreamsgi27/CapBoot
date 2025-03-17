@@ -113,7 +113,7 @@ class DomainServiceTest {
 	}
 
 	@Test
-	void testDeleteById() {
+	void testDeleteById() throws InvalidDataException {
 		Integer idToDelete = 1;
 
 		doNothing().when(domainService).deleteById(idToDelete);

@@ -3,7 +3,6 @@ package com.example.demo.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.boot.actuate.autoconfigure.wavefront.WavefrontProperties.Application;
 import org.springframework.stereotype.Service;
 import com.example.demo.entities.Actor;
 import com.example.demo.exceptions.DuplicateKeyException;
@@ -42,14 +41,6 @@ public class ActorServiceImpl implements ActorService {
 
 	@Override
 	public Actor modify(Actor item) throws InvalidDataException {
-		Actor existingActor = actorRepository.findById(item.getActorId()).orElse(null);
-		if(existingActor == null) {
-			throw new InvalidDataException("El actor no existe");
-		} else {
-			existingActor.setFirstName(item.getFirstName());
-			existingActor.setLastName(item.getLastName());
-			return actorRepository.save(existingActor);
-		}
 		Actor existingActor = actorRepository.findById(item.getActorId()).orElse(null);
 		if(existingActor == null) {
 			throw new InvalidDataException("El actor no existe");
