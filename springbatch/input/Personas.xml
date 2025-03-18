@@ -1,0 +1,10 @@
+<Personas>
+    <Persona>
+        <id>501</id>
+        <firstName>Emmy</firstName>
+        <lastName>Woolfenden</lastName>
+        <company>Posterous</company>
+        <jobTitle>Engineer</jobTitle>
+    </Persona>
+…
+</Personas>
