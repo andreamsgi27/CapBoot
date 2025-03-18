@@ -65,7 +65,7 @@ public Step copyFilesInDir(FTPLoadTasklet ftpLoadTasklet) {
  .tasklet(ftpLoadTasklet, transactionManager)
  .build();
 }
-@Bean
+/* @Bean
 public Job personasJob(PersonasJobListener listener, Step copyFilesInDir) {
 return new JobBuilder("personasJob", jobRepository)
 .incrementer(new RunIdIncrementer())
@@ -73,6 +73,6 @@ return new JobBuilder("personasJob", jobRepository)
 .start(copyFilesInDir)
 .build();
 }
-
+ */
 
 }

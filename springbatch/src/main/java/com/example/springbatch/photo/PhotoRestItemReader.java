@@ -1,4 +1,4 @@
-package com.example.springbatch.photo;
+/* package com.example.springbatch.photo;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -26,7 +26,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import com.example.springbatch.Persona;
 
 @Component
-@Configuration
+//@Configuration
 public class PhotoRestItemReader implements ItemReader<PhotoDTO>, ItemStream {
     @Autowired
     JobRepository jobRepository;
@@ -81,4 +81,4 @@ public class PhotoRestItemReader implements ItemReader<PhotoDTO>, ItemStream {
         }}).build())
         .build();
     }
-}
+} */

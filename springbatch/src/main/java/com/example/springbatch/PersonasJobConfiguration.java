@@ -122,7 +122,7 @@ public class PersonasJobConfiguration {
                 .writer(personaCSVItemWriter())
                 .build();
             }
-
+/* 
             @Bean
             public Job personasJob(PersonasJobListener listener, JdbcBatchItemWriter<Persona> 
                 personaDBItemWriter, Step exportDB2CSVStep) {
@@ -132,7 +132,7 @@ public class PersonasJobConfiguration {
                 .start(importCSV2DBStep(1, "input/personas-1.csv", personaDBItemWriter))
                 .next(exportDB2CSVStep)
                 .build();
-            }
+            } */
 
             public StaxEventItemReader<PersonaDTO> personaXMLItemReader() {
                 XStreamMarshaller marshaller = new XStreamMarshaller();
@@ -178,7 +178,7 @@ public class PersonasJobConfiguration {
                     .build();
                     }
                     
-                    @Bean
+                    /* @Bean
                     public Job personasJob(Step importXML2DBStep1, Step 
                     exportDB2XMLStep, Step exportDB2CSVStep) {
                     return new JobBuilder("personasJob", jobRepository)
@@ -187,7 +187,7 @@ public class PersonasJobConfiguration {
                     .next(exportDB2XMLStep)
                     .next(exportDB2CSVStep)
                     .build();
-                    }
+                    } */
                     
 
         }
