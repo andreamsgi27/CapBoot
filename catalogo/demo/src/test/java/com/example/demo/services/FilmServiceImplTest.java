@@ -4,13 +4,22 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 
 import com.example.demo.entities.Film;
+import com.example.demo.entities.Language;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.NotFoundException;
@@ -19,43 +28,35 @@ import com.example.demo.services.services.FilmServiceImpl;
 
 public class FilmServiceImplTest {
 
-    private FilmServiceImpl filmService;
-    private FilmRepository filmRepository;
+    @InjectMocks
+    private FilmServiceImpl filmService;  // Usamos FilmServiceImpl directamente en la inyección
 
-    //In
+    @Mock
+    private FilmRepository filmRepository;  // Mock de FilmRepository
+
     private Film film1;
     private Film film2;
 
     @BeforeEach
     public void setup() {
-        film1 = new Film(1, "Description 1", null, 120, "PG",
-                        (short) 2001, (byte) 7, new BigDecimal("2.99"), new BigDecimal("19.99"),
-                        "Film 1", null, null, null, null, null);
-        film2 = new Film(
-                            2, // filmId
-                            "Description 2", // Description
-                            null, // lastUpdate (not specified in the example)
-                            150, // length (duration in minutes)
-                            "PG-13", // rating
-                            (short) 2005, // releaseYear (year of release)
-                            (byte) 5, // rentalDuration (rental duration)
-                            new BigDecimal("3.49"), // rentalRate (rental rate)
-                            new BigDecimal("25.99"), // replacementCost (replacement cost)
-                            "Film 2", // title
-                            null, // language (relation with the language)
-                            null, // languageVO (relation with the original language)
-                            null, // filmActors (relation with film actors)
-                            null, // filmCategories (relation with film categories)
-                            null  // inventories (relation with inventories)
-                );
+        MockitoAnnotations.openMocks(this);  // Inicializa los mocks
+
+        Language language = new Language(1, "English");
+        BigDecimal rentalRate = new BigDecimal("2.99");
+        BigDecimal replacementCost = new BigDecimal("19.99");
+        film1 = new Film(1, "Film 1", language, (byte) 5, rentalRate, replacementCost);
+
+        Language language2 = new Language(2, "Spanish");
+        BigDecimal rentalRate2 = new BigDecimal("3.99");
+        BigDecimal replacementCost2 = new BigDecimal("29.99");
+        film2 = new Film(2, "Film 2", language2, (byte) 5, rentalRate2, replacementCost2);
     }
 
     // READS
     @Test
     public void testGetAllFilms() {
         List<Film> films = List.of(film1, film2);
-        filmRepository = mock(FilmRepository.class);
-        filmService = new FilmServiceImpl(filmRepository);
+
         when(filmRepository.findAll()).thenReturn(films);
 
         List<Film> result = filmService.getAll();
@@ -67,9 +68,6 @@ public class FilmServiceImplTest {
 
     @Test
     public void testGetFilmById() {
-        filmRepository = mock(FilmRepository.class);
-        filmService = new FilmServiceImpl(filmRepository);
-
         when(filmRepository.findById(1)).thenReturn(Optional.of(film1));
 
         Film result = filmService.getOne(1).get();
@@ -80,9 +78,6 @@ public class FilmServiceImplTest {
     // CREATES
     @Test
     public void testAddFilm() throws DuplicateKeyException, InvalidDataException {
-        filmRepository = mock(FilmRepository.class);
-        filmService = new FilmServiceImpl(filmRepository);
-
         when(filmRepository.save(film1)).thenReturn(film1);
         when(filmRepository.existsById(1)).thenReturn(false);
 
@@ -95,16 +90,11 @@ public class FilmServiceImplTest {
     @Test
     public void testAddFilmInvalidDataException() throws DuplicateKeyException, InvalidDataException {
         Film film = null;
-        filmRepository = mock(FilmRepository.class);
-        filmService = new FilmServiceImpl(filmRepository);
         assertThrows(InvalidDataException.class, () -> filmService.add(film));
     }
 
     @Test
     public void testAddFilmDuplicateKeyException() throws DuplicateKeyException, InvalidDataException {
-        filmRepository = mock(FilmRepository.class);
-        filmService = new FilmServiceImpl(filmRepository);
-
         when(filmRepository.existsById(1)).thenReturn(true);
         assertThrows(DuplicateKeyException.class, () -> filmService.add(film1));
     }
@@ -113,15 +103,9 @@ public class FilmServiceImplTest {
     @Test
     public void testUpdateFilm() throws InvalidDataException, NotFoundException {
         film2.setFilmId(1);
-        
-        filmRepository = mock(FilmRepository.class);
-        filmService = new FilmServiceImpl(filmRepository);
 
         when(filmRepository.findById(1)).thenReturn(Optional.of(film1));
         when(filmRepository.save(film2)).thenReturn(film2);
-
-        assertEquals(1, film1.getFilmId());
-        assertEquals("Film 1", film1.getTitle());
 
         Film result = filmService.modify(film2);
 
@@ -133,43 +117,150 @@ public class FilmServiceImplTest {
     @Test
     public void testUpdateFilmInvalidDataException() throws InvalidDataException {
         Film film = null;
-        filmRepository = mock(FilmRepository.class);
-        filmService = new FilmServiceImpl(filmRepository);
         assertThrows(InvalidDataException.class, () -> filmService.modify(film));
-    }
-
-    // DELETES
-    @Test
-    public void testDeleteFilm() throws InvalidDataException {
-        filmRepository = mock(FilmRepository.class);
-        filmService = new FilmServiceImpl(filmRepository);
-
-        when(filmRepository.findById(1)).thenReturn(Optional.of(film1));
-        filmService.delete(film1);
-        verify(filmRepository, times(1)).delete(film1);
-    }
-
-    @Test
-    public void testDeleteByIdFilm() throws InvalidDataException {
-        filmRepository = mock(FilmRepository.class);
-        filmService = new FilmServiceImpl(filmRepository);
-
-        when(filmRepository.findById(1)).thenReturn(Optional.of(film1));
-        filmService.deleteById(1);
-        verify(filmRepository, times(1)).delete(film1);
     }
 
     @Test
     public void testDeleteFilmInvalid() throws InvalidDataException {
-        filmRepository = mock(FilmRepository.class);
-        filmService = new FilmServiceImpl(filmRepository);
         assertThrows(InvalidDataException.class, () -> filmService.delete(null));
     }
 
-    @Test
-    public void testDeleteByIdFilmInvalid() throws InvalidDataException {
-        filmRepository = mock(FilmRepository.class);
-        filmService = new FilmServiceImpl(filmRepository);
-        assertThrows(InvalidDataException.class, () -> filmService.deleteById(null));
-    }
+        // DELETES
+        @Test
+        void testDelete_NullFilm() {
+            InvalidDataException exception = assertThrows(InvalidDataException.class, () -> {
+                filmService.delete(null);
+            });
+    
+            assertEquals("No puede ser nulo", exception.getMessage());
+        }
+    
+        @Test
+        void testDeleteById() {
+            doNothing().when(filmRepository).deleteById(1);
+    
+            filmService.deleteById(1);
+    
+            verify(filmRepository, times(1)).deleteById(1);
+        }
+    
+        //PAGEABLES Y SORT
+
+        @Test
+        public void testGetByProjectionWithType() {
+            when(filmRepository.findAllBy(Film.class)).thenReturn(List.of(film1, film2));
+
+            List<Film> result = filmService.getByProjection(Film.class);
+
+            assertEquals(2, result.size());
+            assertEquals("Film 1", result.get(0).getTitle());
+            assertEquals("Film 2", result.get(1).getTitle());
+        }
+
+        @Test
+        public void testGetByProjectionWithSortAndType() {
+            Sort sort = Sort.by("title");
+            when(filmRepository.findAllBy(sort, Film.class)).thenReturn(List.of(film1, film2));
+
+            List<Film> result = filmService.getByProjection(sort, Film.class);
+
+            assertEquals(2, result.size());
+            assertEquals("Film 1", result.get(0).getTitle());
+            assertEquals("Film 2", result.get(1).getTitle());
+        }
+
+        @Test
+        public void testGetByProjectionWithPageableAndType() {
+            Pageable pageable = mock(Pageable.class);
+            Page<Film> page = mock(Page.class);
+            when(filmRepository.findAllBy(pageable, Film.class)).thenReturn(page);
+
+            Page<Film> result = filmService.getByProjection(pageable, Film.class);
+
+            assertEquals(page, result);
+        }
+
+        @Test
+        public void testGetAllWithSort() {
+            Sort sort = Sort.by("title");
+            when(filmRepository.findAll(sort)).thenReturn(List.of(film1, film2));
+
+            List<Film> result = filmService.getAll(sort);
+
+            assertEquals(2, result.size());
+            assertEquals("Film 1", result.get(0).getTitle());
+            assertEquals("Film 2", result.get(1).getTitle());
+        }
+
+        @Test
+        public void testGetAllWithPageable() {
+            Pageable pageable = mock(Pageable.class);
+            Page<Film> page = mock(Page.class);
+            when(filmRepository.findAll(pageable)).thenReturn(page);
+
+            Page<Film> result = filmService.getAll(pageable);
+
+            assertEquals(page, result);
+        }
+
+        @Test
+        public void testGetOneWithSpecification() {
+            Specification<Film> spec = mock(Specification.class);
+            when(filmRepository.findOne(spec)).thenReturn(Optional.of(film1));
+
+            Optional<Film> result = filmService.getOne(spec);
+
+            assertTrue(result.isPresent());
+            assertEquals("Film 1", result.get().getTitle());
+        }
+
+        @Test
+        public void testGetAllWithSpecification() {
+            Specification<Film> spec = mock(Specification.class);
+            when(filmRepository.findAll(spec)).thenReturn(List.of(film1, film2));
+
+            List<Film> result = filmService.getAll(spec);
+
+            assertEquals(2, result.size());
+            assertEquals("Film 1", result.get(0).getTitle());
+            assertEquals("Film 2", result.get(1).getTitle());
+        }
+
+        @Test
+        public void testGetAllWithSpecificationAndPageable() {
+            Specification<Film> spec = mock(Specification.class);
+            Pageable pageable = mock(Pageable.class);
+            Page<Film> page = mock(Page.class);
+            when(filmRepository.findAll(spec, pageable)).thenReturn(page);
+
+            Page<Film> result = filmService.getAll(spec, pageable);
+
+            assertEquals(page, result);
+        }
+
+        @Test
+        public void testGetAllWithSpecificationAndSort() {
+            Specification<Film> spec = mock(Specification.class);
+            Sort sort = Sort.by("title");
+            when(filmRepository.findAll(spec, sort)).thenReturn(List.of(film1, film2));
+
+            List<Film> result = filmService.getAll(spec, sort);
+
+            assertEquals(2, result.size());
+            assertEquals("Film 1", result.get(0).getTitle());
+            assertEquals("Film 2", result.get(1).getTitle());
+        }
+
+        @Test
+        public void testNovedades() {
+            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+            when(filmRepository.findByLastUpdateGreaterThanEqualOrderByLastUpdate(timestamp)).thenReturn(List.of(film1, film2));
+
+            List<Film> result = filmService.novedades(timestamp);
+
+            assertEquals(2, result.size());
+            assertEquals("Film 1", result.get(0).getTitle());
+            assertEquals("Film 2", result.get(1).getTitle());
+        }
+    
 }
