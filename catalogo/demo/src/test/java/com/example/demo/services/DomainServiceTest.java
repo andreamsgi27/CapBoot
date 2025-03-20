@@ -12,11 +12,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 import com.example.demo.core.DomainService;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
+import com.example.demo.exceptions.NotFoundException;
 
 
 class DomainServiceTest {
