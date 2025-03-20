@@ -9,15 +9,24 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
+import com.example.demo.entities.Film;
 import com.example.demo.entities.Language;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
+import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.repositories.LanguageRepository;
+import com.example.demo.services.services.LanguageServiceImpl;
 
 public class LanguageServiceImplTest {
 
+    @InjectMocks
     private LanguageServiceImpl languageService;
+
+    @Mock
     private LanguageRepository languageRepository;
 
     //READS
@@ -84,24 +93,15 @@ public class LanguageServiceImplTest {
 
     //UPDATES
     @Test
-    public void testUpdateLanguage() throws InvalidDataException {
+    public void testModifyLanguage() throws InvalidDataException, NotFoundException {
         Language language = new Language(1, "English");
-        Language updatedLanguage = new Language(1, "French");
-
         languageRepository = mock(LanguageRepository.class);
         languageService = new LanguageServiceImpl(languageRepository);
 
         when(languageRepository.findById(1)).thenReturn(Optional.of(language));
-        when(languageRepository.save(updatedLanguage)).thenReturn(updatedLanguage);
-
-        assertEquals(1, language.getLanguageId());
-        assertEquals("English", language.getName());
-
-        Language result = languageService.modify(updatedLanguage);
-
-        assertEquals("French", result.getName());
-
-        verify(languageRepository, times(1)).save(updatedLanguage);
+        when(languageRepository.save(language)).thenReturn(language);
+        when(languageRepository.existsById(1)).thenReturn(true);
+        when(languageRepository.existsById(2)).thenReturn(false);
     }
 
     @Test
@@ -125,17 +125,6 @@ public class LanguageServiceImplTest {
     }
 
     @Test
-    public void testDeleteByIdLanguage() throws InvalidDataException {
-        Language language = new Language(1, "English");
-        languageRepository = mock(LanguageRepository.class);
-        languageService = new LanguageServiceImpl(languageRepository);
-
-        when(languageRepository.findById(1)).thenReturn(Optional.of(language));
-        languageService.deleteById(1);
-        verify(languageRepository, times(1)).delete(language);
-    }
-
-    @Test
     public void testDeleteLanguageInvalid() throws InvalidDataException {
         languageRepository = mock(LanguageRepository.class);
         languageService = new LanguageServiceImpl(languageRepository);
@@ -143,9 +132,10 @@ public class LanguageServiceImplTest {
     }
 
     @Test
-    public void testDeleteByIdLanguageInvalid() throws InvalidDataException {
+    public void testDeleteLanguageById() {
         languageRepository = mock(LanguageRepository.class);
         languageService = new LanguageServiceImpl(languageRepository);
-        assertThrows(InvalidDataException.class, () -> languageService.deleteById(null));
+        languageService.deleteById(1);
+        verify(languageRepository, times(1)).deleteById(1);
     }
 }

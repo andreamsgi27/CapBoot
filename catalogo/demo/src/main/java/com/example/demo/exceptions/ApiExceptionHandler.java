@@ -58,7 +58,7 @@ public class ApiExceptionHandler {
 				} catch (URISyntaxException e1) {
 				}
 			}
-			this.setTitle(title); 
+			this.setTitle(title);
 			this.setDetail(detail);
 			this.errors = errors;
 		}
@@ -133,12 +133,6 @@ public class ApiExceptionHandler {
 	public ProblemDetail badRequest(Exception exception) {
 		log.error("Bad Request exception", exception);
 		return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, exception.getMessage());
-	}
-
-	@ExceptionHandler({ org.springframework.security.authorization.AuthorizationDeniedException.class })
-	public ProblemDetail AuthorizationDeniedRequest(Exception exception) {
-		log.error(exception.getMessage(), exception);
-		return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, exception.getMessage());
 	}
 
 	@ExceptionHandler({ InvalidDataException.class, MethodArgumentNotValidException.class })

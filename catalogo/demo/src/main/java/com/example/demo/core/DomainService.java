@@ -3,10 +3,10 @@ package com.example.demo.core;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
+import com.example.demo.exceptions.NotFoundException;
+
 
 public interface DomainService<E, K> {
 	List<E> getAll();
@@ -18,6 +18,5 @@ public interface DomainService<E, K> {
 	E modify(E item) throws NotFoundException, InvalidDataException;
 	
 	void delete(E item) throws InvalidDataException;
-	
-	void deleteById(K id) throws InvalidDataException;
+	void deleteById(K id);
 }

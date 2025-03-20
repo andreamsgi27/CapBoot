@@ -23,7 +23,7 @@ import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.NotFoundException;
-import com.example.demo.services.LanguageService;
+import com.example.demo.services.services.LanguageService;
 
 import jakarta.validation.Valid;
 
@@ -37,9 +37,14 @@ public class LanguageController {
         this.languageService = languageService;
     }
 
-    @GetMapping
+    /* @GetMapping
     public List<LanguageDTO> getAll() {
         return languageService.getByProjection(LanguageDTO.class);
+    } */
+
+    @GetMapping
+    public List<Language> getAll() {
+        return languageService.getAll();
     }
 
     @GetMapping("/{id}")
@@ -57,7 +62,7 @@ public class LanguageController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int id, @Valid @RequestBody LanguageDTO item) throws BadRequestException, NotFoundException{
+    public void update(@PathVariable int id, @Valid @RequestBody LanguageDTO item) throws BadRequestException, NotFoundException, org.springframework.data.crossstore.ChangeSetPersister.NotFoundException, InvalidDataException{
         if (item.getLanguageId() != id) {
             throw new BadRequestException("The ID in the URL and the request body are different");
         }

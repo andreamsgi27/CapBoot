@@ -1,47 +1,107 @@
 package com.example.demo.entities;
 
-
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
 
 public class FilmTest {
 
-    @Test
-    public void testFilmConstructorAndGettersSetters() {
-        // Crear un objeto Film
-        Film film = new Film(1, "Description", null, 120, "PG", (short) 2001, (byte) 7,
-                            new BigDecimal("2.99"), new BigDecimal("19.99"), "Film 1", null, null, null, null, null);
+        @Test
+        public void testFilmConstructor() {
+            Language language = new Language(1, "English");
+            BigDecimal rentalRate = new BigDecimal("2.99");
+            BigDecimal replacementCost = new BigDecimal("19.99");
+            Film film = new Film("Test Title", language, (byte) 5, rentalRate, replacementCost);
 
-        // Verificar los valores de los atributos a través de los métodos getters
-        assertEquals(1, film.getFilmId());
-        assertEquals("Description", film.getDescription());
-        assertEquals(120, film.getLength());
-        assertEquals("PG", film.getRating());
-        assertEquals((short) 2001, film.getReleaseYear());
-        assertEquals((byte) 7, film.getRentalDuration());
-        assertEquals(new BigDecimal("2.99"), film.getRentalRate());
-        assertEquals(new BigDecimal("19.99"), film.getReplacementCost());
-        assertEquals("Film 1", film.getTitle());
+            assertEquals("Test Title", film.getTitle());
+            assertEquals(language, film.getLanguage());
+            assertEquals(5, film.getRentalDuration());
+            assertEquals(rentalRate, film.getRentalRate());
+            assertEquals(replacementCost, film.getReplacementCost());
+        }
+
+        @Test
+        public void testSetAndGetSpecialFeatures() {
+            Film film = new Film();
+            film.addSpecialFeatures(Film.SpecialFeature.Trailers);
+            film.addSpecialFeatures(Film.SpecialFeature.Commentaries);
+
+            List<Film.SpecialFeature> features = film.getSpecialFeatures();
+            assertTrue(features.contains(Film.SpecialFeature.Trailers));
+            assertTrue(features.contains(Film.SpecialFeature.Commentaries));
+
+            film.removeSpecialFeatures(Film.SpecialFeature.Trailers);
+            features = film.getSpecialFeatures();
+            assertFalse(features.contains(Film.SpecialFeature.Trailers));
+        }
+
+        @Test
+        public void testSetAndGetActors() {
+            Film film = new Film();
+            Actor actor1 = new Actor(1, "John", "Doe");
+            Actor actor2 = new Actor(2, "Jane", "Smith");
+
+            film.addActor(actor1);
+            film.addActor(actor2);
+
+            List<Actor> actors = film.getActors();
+            assertTrue(actors.contains(actor1));
+            assertTrue(actors.contains(actor2));
+
+            film.removeActor(actor1);
+            actors = film.getActors();
+            assertFalse(actors.contains(actor1));
+        }
+
+        @Test
+        public void testSetAndGetCategories() {
+            Film film = new Film();
+            Category category1 = new Category(1, "Action");
+            Category category2 = new Category(2, "Comedy");
+
+            film.addCategory(category1);
+            film.addCategory(category2);
+
+            List<Category> categories = film.getCategories();
+            assertTrue(categories.contains(category1));
+            assertTrue(categories.contains(category2));
+
+            film.removeCategory(category1);
+            categories = film.getCategories();
+            assertFalse(categories.contains(category1));
+        }
+
+        @Test
+        public void testMerge() {
+            Language language = new Language(1, "English");
+            Film source = new Film("Source Title", language, (byte) 5, new BigDecimal("2.99"), new BigDecimal("19.99"));
+            source.addSpecialFeatures(Film.SpecialFeature.Trailers);
+
+            Film target = new Film("Target Title", language, (byte) 3, new BigDecimal("1.99"), new BigDecimal("9.99"));
+            target = source.merge(target);
+
+            assertEquals("Source Title", target.getTitle());
+            assertEquals((byte) 5, target.getRentalDuration());
+            assertEquals(new BigDecimal("2.99"), target.getRentalRate());
+            assertTrue(target.getSpecialFeatures().contains(Film.SpecialFeature.Trailers));
+        }
+
+        @Test
+        public void testSetAndGetRating() {
+            Film film = new Film();
+            film.setRating(Film.Rating.PARENTAL_GUIDANCE_SUGGESTED);
+
+            assertEquals(Film.Rating.PARENTAL_GUIDANCE_SUGGESTED, film.getRating());
+        }
+
+        @Test
+        public void testSetAndGetReleaseYear() {
+            Film film = new Film();
+            film.setReleaseYear((short) 2023);
+
+            assertEquals(2023, (int) film.getReleaseYear());
+        }
     }
-
-    @Test
-    public void testFilmToString() {
-        // Crear un objeto Film con todos los campos, incluyendo lastUpdate
-        Film film = new Film(1, "Description", new Timestamp(System.currentTimeMillis()), 120, "PG", 
-                            (short) 2001, (byte) 7, new BigDecimal("2.99"), new BigDecimal("19.99"),
-                            "Film 1", null, null, null, null, null);
-
-        // Verificar que el método toString contiene la información correcta
-        String expectedToString = "Film(filmId=1, description=Description, lastUpdate=" 
-                + film.getLastUpdate() + ", length=120, rating=PG, releaseYear=2001, "
-                + "rentalDuration=7, rentalRate=2.99, replacementCost=19.99, title=Film 1, "
-                + "language=null, languageVO=null, filmActors=null, filmCategories=null, inventories=null)";
-        
-        // Asegurarse de que el valor de lastUpdate se imprima correctamente
-        assertTrue(film.toString().contains(film.getLastUpdate().toString()));
-        assertEquals(expectedToString, film.toString());
-    }
-}
