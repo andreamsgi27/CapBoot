@@ -1,10 +1,13 @@
 package com.example.demo.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import java.sql.Timestamp;
+import java.util.List;
+
+import org.springframework.data.repository.ListCrudRepository;
 
 import com.example.demo.entities.Category;
 
-public interface CategoryRepository extends JpaRepository<Category, Integer>, JpaSpecificationExecutor<Category>{
-    
+public interface CategoryRepository extends ListCrudRepository<Category, Integer> {
+	List<Category> findAllByOrderByName();
+	List<Category> findByLastUpdateGreaterThanEqualOrderByLastUpdate(Timestamp fecha);
 }

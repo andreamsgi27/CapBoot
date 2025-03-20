@@ -13,7 +13,9 @@ import org.junit.jupiter.api.Test;
 import com.example.demo.entities.Film;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
+import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.repositories.FilmRepository;
+import com.example.demo.services.services.FilmServiceImpl;
 
 public class FilmServiceImplTest {
 
@@ -31,20 +33,20 @@ public class FilmServiceImplTest {
                         "Film 1", null, null, null, null, null);
         film2 = new Film(
                             2, // filmId
-                            "Description 2", // Descripción
-                            null, // lastUpdate (no se especifica en el ejemplo)
-                            150, // length (duración en minutos)
+                            "Description 2", // Description
+                            null, // lastUpdate (not specified in the example)
+                            150, // length (duration in minutes)
                             "PG-13", // rating
-                            (short) 2005, // releaseYear (año de lanzamiento)
-                            (byte) 5, // rentalDuration (duración del alquiler)
-                            new BigDecimal("3.49"), // rentalRate (tarifa de alquiler)
-                            new BigDecimal("25.99"), // replacementCost (costo de reemplazo)
-                            "Film 2", // title (título)
-                            null, // language (relación con el idioma)
-                            null, // languageVO (relación con el idioma original)
-                            null, // filmActors (relación con actores de película)
-                            null, // filmCategories (relación con categorías de película)
-                            null  // inventories (relación con inventarios)
+                            (short) 2005, // releaseYear (year of release)
+                            (byte) 5, // rentalDuration (rental duration)
+                            new BigDecimal("3.49"), // rentalRate (rental rate)
+                            new BigDecimal("25.99"), // replacementCost (replacement cost)
+                            "Film 2", // title
+                            null, // language (relation with the language)
+                            null, // languageVO (relation with the original language)
+                            null, // filmActors (relation with film actors)
+                            null, // filmCategories (relation with film categories)
+                            null  // inventories (relation with inventories)
                 );
     }
 
@@ -109,7 +111,7 @@ public class FilmServiceImplTest {
 
     // UPDATES
     @Test
-    public void testUpdateFilm() throws InvalidDataException {
+    public void testUpdateFilm() throws InvalidDataException, NotFoundException {
         film2.setFilmId(1);
         
         filmRepository = mock(FilmRepository.class);

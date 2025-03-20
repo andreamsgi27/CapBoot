@@ -1,10 +1,11 @@
 package com.example.demo.repositories;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import java.sql.Timestamp;
+import java.util.List;
 
 import com.example.demo.entities.Film;
+import com.example.demo.repositories.repositories.ProjectionsAndSpecificationJpaRepository;
 
-public interface FilmRepository extends JpaRepository<Film, Integer>, JpaSpecificationExecutor<Film>{
-    
+public interface FilmRepository extends ProjectionsAndSpecificationJpaRepository<Film, Integer> {
+	List<Film> findByLastUpdateGreaterThanEqualOrderByLastUpdate(Timestamp fecha);
 }

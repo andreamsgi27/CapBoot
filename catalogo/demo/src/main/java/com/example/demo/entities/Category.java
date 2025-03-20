@@ -5,40 +5,85 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 @Entity
 @Table(name="category")
 @NamedQuery(name="Category.findAll", query="SELECT c FROM Category c")
-public class Category implements Serializable {
+public class Category extends AbstractEntity<Category> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="category_id", unique=true, nullable=false)
+	@Column(name="category_id")
+	@JsonProperty("id")
 	private int categoryId;
 
-	@PastOrPresent(message = "La fecha de última actualización no puede ser futura")
-	@Column(name="last_update", insertable=false, updatable=false, nullable=false)
+	@Column(name="last_update", insertable = false, updatable = false)
+	@PastOrPresent
+	@JsonIgnore
 	private Timestamp lastUpdate;
 
-	@NotBlank(message = "El nombre de la categoría no puede estar vacío")
-	@Size(min = 2, max = 25, message = "El nombre de la categoría debe tener entre 2 y 25 caracteres")
-	@Column(nullable=false, length=25)
+	@NotBlank
+	@Size(max=25)
+	@JsonProperty("categoria")
 	private String name;
 
 	//bi-directional many-to-one association to FilmCategory
 	@OneToMany(mappedBy="category")
+	@JsonIgnore
 	private List<FilmCategory> filmCategories;
+
+	public Category() {
+	}
+
+	public Category(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public Category(int categoryId, @NotBlank @Size(max = 25) String name) {
+		this.categoryId = categoryId;
+		this.name = name;
+	}
+
+	public int getCategoryId() {
+		return this.categoryId;
+	}
+
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+
+	public Timestamp getLastUpdate() {
+		return this.lastUpdate;
+	}
+
+	public void setLastUpdate(Timestamp lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public List<FilmCategory> getFilmCategories() {
+		return this.filmCategories;
+	}
+
+	public void setFilmCategories(List<FilmCategory> filmCategories) {
+		this.filmCategories = filmCategories;
+	}
 
 	public FilmCategory addFilmCategory(FilmCategory filmCategory) {
 		getFilmCategories().add(filmCategory);
@@ -52,6 +97,26 @@ public class Category implements Serializable {
 		filmCategory.setCategory(null);
 
 		return filmCategory;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(categoryId);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj instanceof Category o)
+			return categoryId == o.categoryId;
+		else
+			return false;
+	}
+
+	@Override
+	public String toString() {
+		return "Category [categoryId=" + categoryId + ", name=" + name + ", lastUpdate=" + lastUpdate + "]";
 	}
 
 }

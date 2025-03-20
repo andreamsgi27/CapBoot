@@ -11,17 +11,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.data.domain.AfterDomainEventPublication;
+import org.springframework.data.domain.DomainEvents;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
+import com.example.demo.events.DomainEvent;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
 @Entity
 @Table(name="actor")
 @NamedQuery(name="Actor.findAll", query="SELECT a FROM Actor a")
-public class Actor implements Serializable {
+public class Actor extends AbstractEntity<Actor> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -29,32 +35,86 @@ public class Actor implements Serializable {
 	@Column(name="actor_id", unique=true, nullable=false)
 	private int actorId;
 
-	//validaciones
-	@NotBlank(message = "El nombre no puede estar vacío")
-	@Size(min = 2, max = 45, message = "El nombre debe tener entre 2 y 45 caracteres")
-	@Pattern(regexp = "^[A-Za-z]+$", message = "El nombre debe contener solo letras")
 	@Column(name="first_name", nullable=false, length=45)
+	@NotBlank
+	@Size(max=45, min=2)
+//	@NIF
 	private String firstName;
 
-	@NotBlank(message = "El apellido no puede estar vacío")
-	@Size(min = 2, max = 45, message = "El apellido debe tener entre 2 y 45 caracteres")
-	@Pattern(regexp = "^[A-Za-z]+$", message = "El apellido debe contener solo letras")
 	@Column(name="last_name", nullable=false, length=45)
+	@Size(max=45, min=2)
+//	@Pattern(regexp = "[A-Z]+", message = "Tiene que estar en mayusculas")
 	private String lastName;
 
-	@PastOrPresent(message = "La fecha de última actualización no puede ser futura")
 	@Column(name="last_update", insertable=false, updatable=false, nullable=false)
+	@PastOrPresent
 	private Timestamp lastUpdate;
 
 	//bi-directional many-to-one association to FilmActor
-	@OneToMany(mappedBy="actor")
-	private List<FilmActor> filmActors;
+	@OneToMany(mappedBy="actor", fetch = FetchType.LAZY)
+	@JsonBackReference
+	private List<FilmActor> filmActors = new ArrayList<>();
+
+	public Actor() {
+	}
+	
+	public Actor(int actorId) {
+		super();
+		this.actorId = actorId;
+	}
 
 	public Actor(int actorId, String firstName, String lastName) {
 		super();
+		setActorId(actorId);
+		setFirstName(firstName);
+		setLastName(lastName);
+	}
+
+
+	public int getActorId() {
+		return this.actorId;
+	}
+
+	public void setActorId(int actorId) {
+		if (this.actorId == actorId) return;
+		onChange("ActorId", this.actorId, actorId);
 		this.actorId = actorId;
+	}
+
+	public String getFirstName() {
+		return this.firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		if (this.firstName == firstName) return;
+		onChange("FirstName", this.firstName, firstName);
 		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return this.lastName;
+	}
+
+	public void setLastName(String lastName) {
+		if (this.lastName == lastName) return;
+		onChange("LastName", this.lastName, lastName);
 		this.lastName = lastName;
+	}
+
+	public Timestamp getLastUpdate() {
+		return this.lastUpdate;
+	}
+
+	public void setLastUpdate(Timestamp lastUpdate) {
+		this.lastUpdate = lastUpdate;
+	}
+
+	public List<FilmActor> getFilmActors() {
+		return this.filmActors;
+	}
+
+	public void setFilmActors(List<FilmActor> filmActors) {
+		this.filmActors = filmActors;
 	}
 
 	public FilmActor addFilmActor(FilmActor filmActor) {
@@ -93,4 +153,33 @@ public class Actor implements Serializable {
 		return "Actor [actorId=" + actorId + ", firstName=" + firstName + ", lastName=" + lastName + ", lastUpdate="
 				+ lastUpdate + "]";
 	}
+
+	public void jubilate() {
+		
+	}
+	
+	public void recibePremio(String premio) {
+		
+	}
+
+	@Transient
+	@JsonIgnore
+	private final Collection<Object> domainEvents = new ArrayList<>();
+
+	protected void onChange(String property, Object old, Object current) {
+		domainEvents.add(new DomainEvent(getClass().getName(), actorId, property, old, current));
+	}
+
+	@DomainEvents
+	Collection<Object> domainEvents() {
+		if(domainEvents.size() == 0)
+			System.err.println("Sin eventos de dominio");
+		return domainEvents;
+	}
+
+	@AfterDomainEventPublication
+	void clearDomainEvents() {
+		domainEvents.clear();
+	}
+
 }
