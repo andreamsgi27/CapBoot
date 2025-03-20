@@ -29,9 +29,9 @@ public class CatalogoApplication implements CommandLineRunner {
 	@Override
 	@Transactional
 	public void run(String... args) throws Exception {
-		System.err.println("Aplicación arrancada...");
+		System.err.println("App arrancada...");
 //		publisher.publishEvent("Aplicación arrancada...");
-		log.info("Aplicación arrancada...");
+		log.info("App arrancada...");
 //		var item = new Film(0, "Test", new Language(1), (byte)1, new BigDecimal(1.0), new BigDecimal(10.5));
 //		item.addActor(new Actor(1));
 //		item.addActor(new Actor(2));
