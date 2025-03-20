@@ -37,9 +37,14 @@ public class LanguageController {
         this.languageService = languageService;
     }
 
-    @GetMapping
+    /* @GetMapping
     public List<LanguageDTO> getAll() {
         return languageService.getByProjection(LanguageDTO.class);
+    } */
+
+    @GetMapping
+    public List<Language> getAll() {
+        return languageService.getAll();
     }
 
     @GetMapping("/{id}")
