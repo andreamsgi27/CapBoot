@@ -18,7 +18,6 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
@@ -26,11 +25,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import com.example.demo.entities.Film.SpecialFeature;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
 @Table(name = "film")
 @NamedQuery(name = "Film.findAll", query = "SELECT f FROM Film f")
@@ -206,8 +206,6 @@ public class Film extends AbstractEntity<Film> implements Serializable {
 	@JsonBackReference
 	private List<FilmCategory> filmCategories = new ArrayList<FilmCategory>();
 
-	public Film() {
-	}
 
 	public Film(int filmId) {
 		this.filmId = filmId;
