@@ -2,8 +2,8 @@ package com.example.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,7 @@ class CategoryTest {
         category = new Category();
         category.setCategoryId(1);
         category.setName("Action");
-        category.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        category.setLastUpdate(new Date(System.currentTimeMillis()));
         category.setFilmCategories(new ArrayList<>());
     }
 
@@ -25,7 +25,7 @@ class CategoryTest {
     void testGettersAndSetters() {
         category.setCategoryId(2);
         category.setName("Comedy");
-        category.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        category.setLastUpdate(new Date(System.currentTimeMillis()));
 
         assertEquals(2, category.getCategoryId());
         assertEquals("Comedy", category.getName());

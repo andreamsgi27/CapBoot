@@ -2,7 +2,7 @@ package com.example.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +20,7 @@ class StaffTest {
         staff.setEmail("test@example.com");
         staff.setFirstName("John");
         staff.setLastName("Doe");
-        staff.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        staff.setLastUpdate(new Date(System.currentTimeMillis()));
         staff.setPassword("password123");
         staff.setPicture(new byte[]{1, 2, 3});
         staff.setUsername("johndoe");
@@ -38,7 +38,7 @@ class StaffTest {
         staff.setEmail("updated@example.com");
         staff.setFirstName("Jane");
         staff.setLastName("Smith");
-        staff.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        staff.setLastUpdate(new Date(System.currentTimeMillis()));
         staff.setPassword("newpassword");
         staff.setPicture(new byte[]{4, 5, 6});
         staff.setUsername("janesmith");

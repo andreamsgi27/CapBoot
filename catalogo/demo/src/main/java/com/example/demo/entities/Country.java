@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 
@@ -34,7 +34,7 @@ public class Country implements Serializable {
 
 	@PastOrPresent(message = "La fecha de actualización no puede estar en el futuro")
 	@Column(name="last_update", nullable=false)
-	private Timestamp lastUpdate;
+	private Date lastUpdate;
 
 	//bi-directional many-to-one association to City
 	@OneToMany(mappedBy="country")

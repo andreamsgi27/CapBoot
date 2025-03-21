@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.sql.Timestamp;
 
 
 @AllArgsConstructor
@@ -29,9 +28,9 @@ public class Payment implements Serializable {
 	private BigDecimal amount;
 
 	@Column(name="last_update")
-	private Timestamp lastUpdate;
+	private Date lastUpdate;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name="payment_date", nullable=false)
 	private Date paymentDate;
 

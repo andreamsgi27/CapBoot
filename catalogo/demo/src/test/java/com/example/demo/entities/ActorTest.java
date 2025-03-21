@@ -2,7 +2,7 @@ package com.example.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +23,7 @@ class ActorTest {
         actor.setActorId(2);
         actor.setFirstName("Jane");
         actor.setLastName("Smith");
-        actor.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        actor.setLastUpdate(new Date(System.currentTimeMillis()));
 
         assertEquals(2, actor.getActorId());
         assertEquals("Jane", actor.getFirstName());

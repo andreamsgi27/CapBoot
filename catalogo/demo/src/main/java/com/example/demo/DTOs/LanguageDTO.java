@@ -1,7 +1,7 @@
 package com.example.demo.DTOs;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import com.example.demo.entities.Language;
@@ -10,13 +10,13 @@ public class LanguageDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private int languageId;
-    private Timestamp lastUpdate;
+    private Date lastUpdate;
     private String name;
     private List<FilmDTO> films;
     private List<FilmDTO> filmsVO;
 
     // Constructor
-    public LanguageDTO(int languageId, Timestamp lastUpdate, String name, List<FilmDTO> films, List<FilmDTO> filmsVO) {
+    public LanguageDTO(int languageId, Date lastUpdate, String name, List<FilmDTO> films, List<FilmDTO> filmsVO) {
         this.languageId = languageId;
         this.lastUpdate = lastUpdate;
         this.name = name;
@@ -40,11 +40,11 @@ public class LanguageDTO implements Serializable {
         this.languageId = languageId;
     }
 
-    public Timestamp getLastUpdate() {
+    public Date getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Timestamp lastUpdate) {
+    public void setLastUpdate(Date lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

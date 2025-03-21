@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
 import java.net.URI;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,7 +94,7 @@ public class FilmController {
 
     // Obtener films con novedades basadas en la fecha de última actualización
     @GetMapping("/novedades")
-    public List<Film> novedades(@RequestParam Timestamp fecha) {
+    public List<Film> novedades(@RequestParam Date fecha) {
         return filmService.novedades(fecha);
     }
 

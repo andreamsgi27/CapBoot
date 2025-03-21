@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -253,10 +253,10 @@ public class FilmServiceImplTest {
 
         @Test
         public void testNovedades() {
-            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-            when(filmRepository.findByLastUpdateGreaterThanEqualOrderByLastUpdate(timestamp)).thenReturn(List.of(film1, film2));
+            Date date = new Date(System.currentTimeMillis());
+            when(filmRepository.findByLastUpdateGreaterThanEqualOrderByLastUpdate(date)).thenReturn(List.of(film1, film2));
 
-            List<Film> result = filmService.novedades(timestamp);
+            List<Film> result = filmService.novedades(date);
 
             assertEquals(2, result.size());
             assertEquals("Film 1", result.get(0).getTitle());

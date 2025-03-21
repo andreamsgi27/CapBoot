@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -33,7 +33,7 @@ public class Address implements Serializable {
 	private String district;
 
 	@Column(name="last_update", nullable=false)
-	private Timestamp lastUpdate;
+	private Date lastUpdate;
 
 	@Column(nullable=false, length=20)
 	private String phone;

@@ -2,9 +2,8 @@ package com.example.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,7 @@ class AddressTest {
         address.setDistrict("Downtown");
         address.setPhone("123456789");
         address.setPostalCode("12345");
-        address.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        address.setLastUpdate(new Date(System.currentTimeMillis()));
         address.setCity(new City());
         address.setCustomers(new ArrayList<>());
         address.setStaffs(new ArrayList<>());
@@ -37,7 +36,7 @@ class AddressTest {
         address.setDistrict("Uptown");
         address.setPhone("987654321");
         address.setPostalCode("54321");
-        address.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        address.setLastUpdate(new Date(System.currentTimeMillis()));
         City city = new City();
         address.setCity(city);
 

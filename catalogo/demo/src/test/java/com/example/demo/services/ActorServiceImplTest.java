@@ -3,8 +3,8 @@ package com.example.demo.services;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,9 +15,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import com.example.demo.entities.Actor;
-import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
-import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.repositories.ActorRepository;
 import com.example.demo.services.services.ActorServiceImpl;
 
@@ -118,16 +116,16 @@ class ActorServiceImplTest {
 
     @Test
     void testNovedades() {
-        Timestamp timestamp = Timestamp.valueOf("2023-01-01 00:00:00");
+        Date date = new Date();
         Actor actor1 = new Actor();
         Actor actor2 = new Actor();
         List<Actor> actors = Arrays.asList(actor1, actor2);
 
-        when(actorRepository.findByLastUpdateGreaterThanEqualOrderByLastUpdate(timestamp)).thenReturn(actors);
+        when(actorRepository.findByLastUpdateGreaterThanEqualOrderByLastUpdate(date)).thenReturn(actors);
 
-        List<Actor> result = actorService.novedades(timestamp);
+        List<Actor> result = actorService.novedades(date);
 
         assertEquals(2, result.size());
-        verify(actorRepository, times(1)).findByLastUpdateGreaterThanEqualOrderByLastUpdate(timestamp);
+        verify(actorRepository, times(1)).findByLastUpdateGreaterThanEqualOrderByLastUpdate(date);
     }
 }

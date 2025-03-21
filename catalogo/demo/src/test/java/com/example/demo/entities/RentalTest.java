@@ -2,7 +2,6 @@ package com.example.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -17,7 +16,7 @@ class RentalTest {
     void setUp() {
         rental = new Rental();
         rental.setRentalId(1);
-        rental.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        rental.setLastUpdate(new Date(System.currentTimeMillis()));
         rental.setRentalDate(new Date());
         rental.setReturnDate(new Date());
         rental.setCustomer(new Customer());
@@ -29,7 +28,7 @@ class RentalTest {
     @Test
     void testGettersAndSetters() {
         rental.setRentalId(2);
-        rental.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        rental.setLastUpdate(new Date(System.currentTimeMillis()));
         rental.setRentalDate(new Date());
         rental.setReturnDate(new Date());
         Customer customer = new Customer();

@@ -11,7 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 
@@ -50,7 +50,7 @@ public class Staff implements Serializable {
 
 	@PastOrPresent(message = "La fecha de última actualización no puede ser futura")
 	@Column(name="last_update", nullable=false)
-	private Timestamp lastUpdate;
+	private Date lastUpdate;
 
 	@Size(min = 8, message = "La contraseña debe tener al menos 8 caracteres")
 	@Column(length=40)

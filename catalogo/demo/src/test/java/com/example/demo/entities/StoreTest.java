@@ -2,7 +2,7 @@ package com.example.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,7 @@ class StoreTest {
     void setUp() {
         store = new Store();
         store.setStoreId((byte) 1);
-        store.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        store.setLastUpdate(new Date(System.currentTimeMillis()));
         store.setAddress(new Address());
         store.setStaff(new Staff());
         store.setCustomers(new ArrayList<>());
@@ -27,7 +27,7 @@ class StoreTest {
     @Test
     void testGettersAndSetters() {
         store.setStoreId((byte) 2);
-        store.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        store.setLastUpdate(new Date(System.currentTimeMillis()));
         Address address = new Address();
         Staff manager = new Staff();
         store.setAddress(address);

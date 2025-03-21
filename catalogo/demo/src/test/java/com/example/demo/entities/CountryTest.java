@@ -2,7 +2,7 @@ package com.example.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +18,7 @@ class CountryTest {
         country = new Country();
         country.setCountryId(1);
         country.setCountry("Spain");
-        country.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        country.setLastUpdate(new Date(System.currentTimeMillis()));
         country.setCities(new ArrayList<>());
     }
 
@@ -26,7 +26,7 @@ class CountryTest {
     void testGettersAndSetters() {
         country.setCountryId(2);
         country.setCountry("France");
-        country.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        country.setLastUpdate(new Date(System.currentTimeMillis()));
 
         assertEquals(2, country.getCountryId());
         assertEquals("France", country.getCountry());

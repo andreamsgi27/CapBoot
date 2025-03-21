@@ -2,7 +2,7 @@ package com.example.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +16,7 @@ class InventoryTest {
     void setUp() {
         inventory = new Inventory();
         inventory.setInventoryId(1);
-        inventory.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        inventory.setLastUpdate(new Date(System.currentTimeMillis()));
         inventory.setFilm(new Film());
         inventory.setStore(new Store());
         inventory.setRentals(new ArrayList<>());
@@ -25,7 +25,7 @@ class InventoryTest {
     @Test
     void testGettersAndSetters() {
         inventory.setInventoryId(2);
-        inventory.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        inventory.setLastUpdate(new Date(System.currentTimeMillis()));
         Film film = new Film();
         Store store = new Store();
         inventory.setFilm(film);

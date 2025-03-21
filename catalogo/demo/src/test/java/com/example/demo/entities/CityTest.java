@@ -2,7 +2,7 @@ package com.example.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
@@ -11,10 +11,10 @@ class CityTest {
 
     @Test
     void testCityConstructor() {
-        City city = new City(1, "New York", Timestamp.valueOf("2023-01-01 00:00:00"), null, null);
+        City city = new City(1, "New York", Date.valueOf("2023-01-01"), null, null);
         assertEquals(1, city.getCityId());
         assertEquals("New York", city.getCity());
-        assertEquals(Timestamp.valueOf("2023-01-01 00:00:00"), city.getLastUpdate());
+        assertEquals(Date.valueOf("2023-01-01 00:00:00"), city.getLastUpdate());
     }
 
     @Test

@@ -1,7 +1,7 @@
 package com.example.demo.entities;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -33,7 +33,7 @@ public class Store implements Serializable {
 	private byte storeId;
 
 	@Column(name="last_update", nullable=false)
-	private Timestamp lastUpdate;
+	private Date lastUpdate;
 
 	//bi-directional many-to-one association to Customer
 	@OneToMany(mappedBy="store")
