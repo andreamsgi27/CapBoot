@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +29,7 @@ public class Category extends AbstractEntity<Category> implements Serializable {
 	@Column(name="last_update", insertable = false, updatable = false)
 	@PastOrPresent
 	@JsonIgnore
-	private Timestamp lastUpdate;
+	private Date lastUpdate;
 
 	@NotBlank
 	@Size(max=25)
@@ -61,11 +61,11 @@ public class Category extends AbstractEntity<Category> implements Serializable {
 		this.categoryId = categoryId;
 	}
 
-	public Timestamp getLastUpdate() {
+	public Date getLastUpdate() {
 		return this.lastUpdate;
 	}
 
-	public void setLastUpdate(Timestamp lastUpdate) {
+	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 

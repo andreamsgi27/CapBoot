@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -20,7 +20,7 @@ public class FilmActor implements Serializable {
 	private FilmActorPK id;
 
 	@Column(name="last_update", insertable = false, updatable = false)
-	private Timestamp lastUpdate;
+	private Date lastUpdate;
 
 	//bi-directional many-to-one association to Actor
 	@ManyToOne
@@ -51,11 +51,11 @@ public class FilmActor implements Serializable {
 		this.id = id;
 	}
 
-	public Timestamp getLastUpdate() {
+	public Date getLastUpdate() {
 		return this.lastUpdate;
 	}
 
-	public void setLastUpdate(Timestamp lastUpdate) {
+	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 

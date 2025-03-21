@@ -10,7 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -48,7 +48,7 @@ public class Actor extends AbstractEntity<Actor> implements Serializable {
 
 	@Column(name="last_update", insertable=false, updatable=false, nullable=false)
 	@PastOrPresent
-	private Timestamp lastUpdate;
+	private Date lastUpdate;
 
 	//bi-directional many-to-one association to FilmActor
 	@OneToMany(mappedBy="actor", fetch = FetchType.LAZY)
@@ -101,11 +101,11 @@ public class Actor extends AbstractEntity<Actor> implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public Timestamp getLastUpdate() {
+	public Date getLastUpdate() {
 		return this.lastUpdate;
 	}
 
-	public void setLastUpdate(Timestamp lastUpdate) {
+	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 

@@ -2,7 +2,7 @@ package com.example.demo.entities;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +23,7 @@ class CustomerTest {
         customer.setEmail("test@example.com");
         customer.setFirstName("John");
         customer.setLastName("Doe");
-        customer.setLastUpdate(new Timestamp(System.currentTimeMillis()));
+        customer.setLastUpdate(new Date(System.currentTimeMillis()));
         customer.setAddress(new Address());
         customer.setStore(new Store());
         customer.setPayments(new ArrayList<>());

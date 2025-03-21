@@ -1,9 +1,10 @@
 package com.example.demo.controllers;
 
 import java.net.URI;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.demo.DTOs.FilmDTO;
+import com.example.demo.DTOs.FilmShortDTO;
 import com.example.demo.entities.Film;
 import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.DuplicateKeyException;
@@ -45,14 +48,18 @@ public class FilmController {
 
     // Obtener todos los films
     @GetMapping
-    public List<Film> getAll() {
-        return filmService.getAll();
+    public List<FilmShortDTO> getAll() {
+        return filmService.getAll().stream()
+                .map(film -> new FilmShortDTO(film.getFilmId(), film.getTitle()))
+                .toList();
     }
 
-    // Obtener todos los films con orden específico
+    // Obtener todos los films con orden específico.
     @GetMapping("/sorted")
-    public List<Film> getAllSorted(@RequestParam Sort sort) {
-        return filmService.getAll();
+    public List<FilmShortDTO> getAllSorted(@RequestParam Sort sort) {
+        return StreamSupport.stream(filmService.getAll(sort).spliterator(), false)
+                .map(film -> new FilmShortDTO(film.getFilmId(), film.getTitle()))
+                .toList();
     }
 
     // Obtener un film por su ID
@@ -63,11 +70,31 @@ public class FilmController {
 
     // Crear un nuevo film
     @PostMapping
-    public ResponseEntity<Object> add(@Valid @RequestBody Film item) throws DuplicateKeyException, InvalidDataException {
-        Film newFilm = filmService.add(item);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-            .buildAndExpand(newFilm.getFilmId()).toUri();
-        return ResponseEntity.created(location).build();
+    public ResponseEntity<FilmDTO> add(@Valid @RequestBody FilmDTO item) 
+            throws DuplicateKeyException, InvalidDataException {
+        
+        // Convertir FilmsDTO a Film
+        Film film = new Film(
+                item.getFilmId(),
+                item.getTitle(), // Asegúrate de pasar los datos correctos, si es necesario
+                item.getLanguage(),  // Convertir el DTO Language a Entity Language
+                item.getRentalRate(),
+                item.getReplacementCost(),
+                item.getRentalDuration()  // Asume que Rating es parte de FilmDetailsDTO, si no deberías agregarlo
+        );
+
+        // Guardar la entidad Film utilizando el servicio
+        film = filmService.add(film);
+        
+        // Crear la URI para la nueva entidad Film
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(film.getFilmId())
+                .toUri();
+        
+        // Devolver la respuesta con el DTO FilmDetailsDTO
+        return ResponseEntity.created(location)
+                .body(new FilmDTO(film.getFilmId(), film.getTitle(), film.getLanguage(), film.getRentalRate(), film.getReplacementCost(), film.getRentalDuration()));
     }
 
     // Actualizar un film existente
@@ -94,7 +121,7 @@ public class FilmController {
 
     // Obtener films con novedades basadas en la fecha de última actualización
     @GetMapping("/novedades")
-    public List<Film> novedades(@RequestParam Timestamp fecha) {
+    public List<Film> novedades(@RequestParam Date fecha) {
         return filmService.novedades(fecha);
     }
 

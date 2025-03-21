@@ -15,7 +15,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -142,7 +142,7 @@ public class Film extends AbstractEntity<Film> implements Serializable {
 	private String description;
 
 	@Column(name = "last_update", insertable = false, updatable = false, nullable = false)
-	private Timestamp lastUpdate;
+	private Date lastUpdate;
 
 	@Positive
 	private Integer length;
@@ -209,6 +209,21 @@ public class Film extends AbstractEntity<Film> implements Serializable {
 
 	public Film(int filmId) {
 		this.filmId = filmId;
+	}
+
+	public Film(int filmId, String title, Language language, BigDecimal rentalRate, BigDecimal replacementCost, Byte rentalDuration) {
+        this.filmId = filmId;
+        this.title = title;
+        this.language = language;
+        this.rentalRate = rentalRate;
+        this.replacementCost = replacementCost;
+		this.rentalDuration = rentalDuration;
+    }
+
+	//añadido
+	public Film(int filmId, String title) {
+		this.filmId = filmId;
+		this.title = title;
 	}
 
 	public Film(@NotBlank @Size(max = 128) String title, @NotNull Language language, @Positive byte rentalDuration,
@@ -281,11 +296,11 @@ public class Film extends AbstractEntity<Film> implements Serializable {
 		this.description = description;
 	}
 
-	public Timestamp getLastUpdate() {
+	public Date getLastUpdate() {
 		return this.lastUpdate;
 	}
 
-	public void setLastUpdate(Timestamp lastUpdate) {
+	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 
@@ -508,6 +523,11 @@ public class Film extends AbstractEntity<Film> implements Serializable {
 		System.err.println("prePersiste(): Bug Hibernate");
 		filmActors.forEach(o -> o.prePersiste());
 		filmCategories.forEach(o -> o.prePersiste());
+	}
+
+	public Film(int filmId2, String title2, String description2, Short releaseYear2, Object object, Object object2,
+			Byte rentalDuration2, BigDecimal rentalRate2, BigDecimal replacementCost2, String rating2) {
+		//TODO Auto-generated constructor stub
 	}
 
 }

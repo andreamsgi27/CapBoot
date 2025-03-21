@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
 import java.net.URI;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,7 +84,7 @@ public class CategoryController {
 
     // Obtener categorías con novedades basadas en la fecha
     @GetMapping("/novedades")
-    public List<Category> novedades(@RequestParam Timestamp fecha) {
+    public List<Category> novedades(@RequestParam Date fecha) {
         return categoryService.novedades(fecha);
     }
 }

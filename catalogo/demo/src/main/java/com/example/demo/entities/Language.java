@@ -4,7 +4,7 @@ import java.io.Serializable;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -38,7 +38,7 @@ public class Language extends AbstractEntity<Language> implements Serializable {
 	@JsonView(Language.Complete.class)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
 	@JsonProperty("ultimaModificacion")
-	private Timestamp lastUpdate;
+	private Date lastUpdate;
 
 	//bi-directional many-to-one association to Film
 	@OneToMany(mappedBy="language")
@@ -70,11 +70,11 @@ public class Language extends AbstractEntity<Language> implements Serializable {
 		this.languageId = languageId;
 	}
 
-	public Timestamp getLastUpdate() {
+	public Date getLastUpdate() {
 		return this.lastUpdate;
 	}
 
-	public void setLastUpdate(Timestamp lastUpdate) {
+	public void setLastUpdate(Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
 

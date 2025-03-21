@@ -1,7 +1,7 @@
 package com.example.demo.controllers;
 
 import java.net.URI;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -90,7 +90,7 @@ public class ActorController {
 
     // Obtener actores con novedades (basado en la fecha)
     @GetMapping("/novedades")
-    public List<Actor> novedades(@RequestParam Timestamp fecha) {
+    public List<Actor> novedades(@RequestParam Date fecha) {
         return actorService.novedades(fecha);
     }
 }
