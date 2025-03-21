@@ -6,12 +6,14 @@ import java.util.List;
 import com.example.demo.entities.Film;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.Data;
 //import io.swagger.v3.oas.annotations.media.Schema;
 //import io.swagger.v3.oas.annotations.media.Schema.AccessMode;
 import lombok.Value;
 
 //@Schema(name = "Pelicula (Detalles)", description = "Version completa de las peliculas")
 @Value
+@Data
 public class FilmDetailsDTO {
 //	@Schema(description = "Identificador de la pelicula", accessMode = AccessMode.READ_ONLY)
 	private int filmId;

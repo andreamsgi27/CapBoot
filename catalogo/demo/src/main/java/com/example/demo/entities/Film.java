@@ -211,6 +211,21 @@ public class Film extends AbstractEntity<Film> implements Serializable {
 		this.filmId = filmId;
 	}
 
+	public Film(int filmId, String title, Language language, BigDecimal rentalRate, BigDecimal replacementCost, Byte rentalDuration) {
+        this.filmId = filmId;
+        this.title = title;
+        this.language = language;
+        this.rentalRate = rentalRate;
+        this.replacementCost = replacementCost;
+		this.rentalDuration = rentalDuration;
+    }
+
+	//añadido
+	public Film(int filmId, String title) {
+		this.filmId = filmId;
+		this.title = title;
+	}
+
 	public Film(@NotBlank @Size(max = 128) String title, @NotNull Language language, @Positive byte rentalDuration,
 			@Positive @DecimalMin(value = "0.0", inclusive = false) @Digits(integer = 2, fraction = 2) BigDecimal rentalRate,
 			@DecimalMin(value = "0.0", inclusive = false) @Digits(integer = 3, fraction = 2) BigDecimal replacementCost) {
@@ -508,6 +523,11 @@ public class Film extends AbstractEntity<Film> implements Serializable {
 		System.err.println("prePersiste(): Bug Hibernate");
 		filmActors.forEach(o -> o.prePersiste());
 		filmCategories.forEach(o -> o.prePersiste());
+	}
+
+	public Film(int filmId2, String title2, String description2, Short releaseYear2, Object object, Object object2,
+			Byte rentalDuration2, BigDecimal rentalRate2, BigDecimal replacementCost2, String rating2) {
+		//TODO Auto-generated constructor stub
 	}
 
 }
