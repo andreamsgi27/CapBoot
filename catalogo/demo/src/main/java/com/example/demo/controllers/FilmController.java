@@ -25,12 +25,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.demo.DTOs.FilmDTO;
+import com.example.demo.DTOs.FilmEditDTO;
 import com.example.demo.DTOs.FilmShortDTO;
 import com.example.demo.entities.Film;
+import com.example.demo.entities.Language;
 import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
 import com.example.demo.exceptions.NotFoundException;
+import com.example.demo.repositories.FilmRepository;
 import com.example.demo.services.services.FilmService;
 
 import jakarta.validation.Valid;
@@ -41,8 +44,11 @@ public class FilmController {
 
     private final FilmService filmService;
 
+    private final FilmRepository filmRepository;
+
     // Constructor para la inyección de dependencias
-    public FilmController(FilmService filmService) {
+    public FilmController(FilmService filmService, FilmRepository filmRepository) {
+        this.filmRepository = filmRepository;
         this.filmService = filmService;
     }
 
@@ -100,11 +106,51 @@ public class FilmController {
     // Actualizar un film existente
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable Integer id, @Valid @RequestBody Film item) throws BadRequestException, NotFoundException, InvalidDataException {
+    public void update(@PathVariable Integer id, @Valid @RequestBody FilmEditDTO item) 
+            throws BadRequestException, NotFoundException, InvalidDataException {
+        
         if (!id.equals(item.getFilmId())) {
             throw new BadRequestException("El ID en la URL y el ID en el cuerpo de la solicitud no coinciden.");
         }
-        filmService.modify(item);
+
+        // Obtener la entidad Film actual desde la base de datos
+        Film existingFilm = filmRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Film no encontrado."));
+
+        // Actualizar solo los campos proporcionados en el cuerpo de la solicitud
+        if (item.getTitle() != null) {
+            existingFilm.setTitle(item.getTitle());
+        }
+        if (item.getDescription() != null) {
+            existingFilm.setDescription(item.getDescription());
+        }
+        if (item.getLength() != null) {
+            existingFilm.setLength(item.getLength());
+        }
+        if (item.getRating() != null) {
+            existingFilm.setRating(Film.Rating.getEnum(item.getRating()));
+        }
+        if (item.getReleaseYear() != null) {
+            existingFilm.setReleaseYear(item.getReleaseYear());
+        }
+        if (item.getLanguageVOId() != null) {
+            existingFilm.setLanguageVO(new Language(item.getLanguageVOId(), null));
+        }
+        if (item.getLanguage() != null) {
+            existingFilm.setLanguage(item.getLanguage());
+        }
+        if (item.getRentalRate() != null) {
+            existingFilm.setRentalRate(item.getRentalRate());
+        }
+        if (item.getReplacementCost() != null) {
+            existingFilm.setReplacementCost(item.getReplacementCost());
+        }
+        if (item.getRentalDuration() != null) {
+            existingFilm.setRentalDuration(item.getRentalDuration());
+        }
+
+        // Modificar la entidad Film utilizando el servicio
+        filmService.modify(existingFilm);
     }
 
     // Eliminar un film por su ID

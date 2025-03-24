@@ -35,21 +35,21 @@ public class FilmEditDTO {
 //	@Schema(description = "El año en que se estrenó la película", minimum = "1901", maximum = "2155")
 	private Short releaseYear;
 //	@Schema(description = "La duración del período de alquiler, en días", minimum = "0", exclusiveMinimum = true)
-	@NotNull
+	//@NotNull
 	private Byte rentalDuration;
 //	@Schema(description = "El coste de alquilar la película por el período establecido", minimum = "0", exclusiveMinimum = true)
-	@NotNull
+	//@NotNull
 	private BigDecimal rentalRate;
 //	@Schema(description = "El importe cobrado al cliente si la película no se devuelve o se devuelve en un estado dañado", minimum = "0", exclusiveMinimum = true)
-	@NotNull
+	//@NotNull
 	private BigDecimal replacementCost;
 //	@Schema(description = "El título de la película")
-	@NotBlank
+	//@NotBlank
 	@Size(min=2, max = 128)
 	private String title;
 //	@Schema(description = "El identificador del idioma de la película")
-	@NotNull
-	private Integer languageId;
+	//@NotNull
+	private Language language;
 //	@Schema(description = "El identificador del idioma original de la película")
 	private Integer languageVOId;
 //	@Schema(description = "Contenido Adicional")
@@ -71,7 +71,7 @@ public class FilmEditDTO {
 				source.getRentalRate(),
 				source.getReplacementCost(),
 				source.getTitle(),
-				source.getLanguage() == null ? null : source.getLanguage().getLanguageId(),
+				source.getLanguage() == null ? null : source.getLanguage(),
 				source.getLanguageVO() == null ? null : source.getLanguageVO().getLanguageId(),
 				source.getSpecialFeatures().stream().map(item -> item.getValue()).sorted().toList(),
 				source.getActors().stream().map(item -> item.getActorId())
@@ -86,8 +86,8 @@ public class FilmEditDTO {
 				source.getTitle(),
 				source.getDescription(),
 				source.getReleaseYear(),
-				source.getLanguageId() == null ? null : new Language(source.getLanguageId()),
-				source.getLanguageVOId() == null ? null : new Language(source.getLanguageVOId()),
+				source.getLanguage() == null ? null : new Language(source.getLanguage().getLanguageId(), source.getLanguage().getName()),
+				source.getLanguageVOId() == null ? null : new Language(source.getLanguageVOId(), null),
 				source.getRentalDuration(),
 				source.getRentalRate(),
 				source.getLength(),
