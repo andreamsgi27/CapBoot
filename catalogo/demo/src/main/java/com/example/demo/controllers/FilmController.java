@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -167,7 +168,7 @@ public class FilmController {
 
     // Obtener films con novedades basadas en la fecha de última actualización
     @GetMapping("/novedades")
-    public List<Film> novedades(@RequestParam Date fecha) {
+    public List<Film> novedades(@RequestParam("fecha") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Date fecha) {
         return filmService.novedades(fecha);
     }
 
