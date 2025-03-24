@@ -13,10 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.demo.DTOs.ActorDTO;
 import com.example.demo.DTOs.LanguageDTO;
 import com.example.demo.entities.Language;
 import com.example.demo.exceptions.BadRequestException;
@@ -43,39 +45,55 @@ public class LanguageController {
     } */
 
     @GetMapping
-    public List<Language> getAll() {
-        return languageService.getAll();
+    public List<LanguageDTO> getAll() {
+        return languageService.getAll().stream()
+                .map(language -> new LanguageDTO(language.getLanguageId(), language.getName()))
+                .toList();
     }
-
     @GetMapping("/{id}")
-    public Optional<Language> getOne(@PathVariable int id) throws NotFoundException{
-        return languageService.getOne(id);
+    public ResponseEntity<LanguageDTO> getOne(@PathVariable Integer id) throws NotFoundException{
+        Language language = languageService.getOne(id)
+                .orElseThrow(() -> new NotFoundException("Language not found with ID: " + id));
+        return ResponseEntity.ok(new LanguageDTO(language.getLanguageId(), language.getName()));
     }
 
     @PostMapping
-    public ResponseEntity<Object> add(@Valid @RequestBody LanguageDTO item) throws BadRequestException, DuplicateKeyException, InvalidDataException {
-        var newItem = languageService.add(LanguageDTO.from(item));
+    public ResponseEntity<LanguageDTO> add(@Valid @RequestBody LanguageDTO item) throws BadRequestException, DuplicateKeyException, InvalidDataException {
+        Language language = new Language(
+        item.getLanguageId(),
+        item.getName()
+        );
+
+        language = languageService.add(language);
+
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-            .buildAndExpand(newItem.getLanguageId()).toUri();
-        return ResponseEntity.created(location).build();
+                .buildAndExpand(language.getLanguageId()).toUri();
+
+        return ResponseEntity.created(location).body(new LanguageDTO(language.getLanguageId(), language.getName()));
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable int id, @Valid @RequestBody LanguageDTO item) throws BadRequestException, NotFoundException, org.springframework.data.crossstore.ChangeSetPersister.NotFoundException, InvalidDataException{
-        if (item.getLanguageId() != id) {
-            throw new BadRequestException("The ID in the URL and the request body are different");
+    public void update(@PathVariable Integer id, @Valid @RequestBody LanguageDTO item) throws BadRequestException, NotFoundException, org.springframework.data.crossstore.ChangeSetPersister.NotFoundException, InvalidDataException{
+        if (!id.equals(item.getLanguageId())) {
+            throw new BadRequestException("The ID in the URL does not match the ID of the language");
         }
-        languageService.modify(LanguageDTO.from(item));
+        Language existingLanguage = languageService.getOne(id)
+                .orElseThrow(() -> new NotFoundException("Language not found with ID: " + id));
+        
+        if (item.getName() != null) {
+            existingLanguage.setName(item.getName());
+        }
+        languageService.modify(existingLanguage);
     }
 
     @DeleteMapping
-    public void delete() throws InvalidDataException {
-        languageService.delete(null);
+    public void delete(@RequestBody Language item) throws InvalidDataException {
+        languageService.delete(item);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable int id) throws InvalidDataException {
+    public void deleteById(@PathVariable Integer id) throws InvalidDataException {
         languageService.deleteById(id);
     }
 

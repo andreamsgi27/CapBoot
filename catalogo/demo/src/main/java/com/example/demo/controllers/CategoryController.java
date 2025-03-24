@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.demo.DTOs.CategoryDTO;
 import com.example.demo.entities.Category;
 import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.DuplicateKeyException;
@@ -41,33 +42,64 @@ public class CategoryController {
 
     // Obtener todas las categorías
     @GetMapping
-    public List<Category> getAll() {
-        return categoryService.getAll();
+    public List<CategoryDTO> getAll() {
+        return categoryService.getAll().stream()
+                .map(category -> new CategoryDTO(category.getCategoryId(), category.getName()))
+                .toList();
     }
 
     // Obtener una categoría por su ID
     @GetMapping("/{id}")
-    public Optional<Category> getOne(@PathVariable Integer id) throws NotFoundException {
-        return categoryService.getOne(id);
-    }
+    public ResponseEntity<CategoryDTO> getOne(@PathVariable Integer id) throws NotFoundException {
+        // Buscar la categoría por su ID usando el servicio
+        Category category = categoryService.getOne(id)
+                .orElseThrow(() -> new NotFoundException("Categoría no encontrada con ID: " + id));
 
+        // Devolver la respuesta con el DTO de la categoría encontrada
+        return ResponseEntity.ok(new CategoryDTO(category.getCategoryId(), category.getName()));
+    }
     // Crear una nueva categoría
     @PostMapping
-    public ResponseEntity<Object> add(@Valid @RequestBody Category item) throws DuplicateKeyException, InvalidDataException {
-        Category newCategory = categoryService.add(item);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-            .buildAndExpand(newCategory.getCategoryId()).toUri();
-        return ResponseEntity.created(location).build();
+    public ResponseEntity<CategoryDTO> add(@Valid @RequestBody CategoryDTO item) throws DuplicateKeyException, InvalidDataException {
+        // Convertir CategoryDTO a Category
+        Category category = new Category(
+                item.getCategoryId(),
+                item.getName()
+        );
+
+        // Guardar la entidad Category utilizando el servicio
+        category = categoryService.add(category);
+
+        // Crear la URI para la nueva entidad Category
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(category.getCategoryId())
+                .toUri();
+
+        // Devolver la respuesta con el DTO CategoryDTO
+        return ResponseEntity.created(location)
+                .body(new CategoryDTO(category.getCategoryId(), category.getName()));
     }
 
     // Actualizar una categoría existente
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable Integer id, @Valid @RequestBody Category item) throws BadRequestException, NotFoundException, InvalidDataException {
+    public void update(@PathVariable Integer id, @Valid @RequestBody CategoryDTO item) throws BadRequestException, NotFoundException, InvalidDataException {
         if (!id.equals(item.getCategoryId())) {
             throw new BadRequestException("El ID en la URL y el ID en el cuerpo de la solicitud no coinciden.");
         }
-        categoryService.modify(item);
+
+        // Obtener la entidad Category actual desde la base de datos
+        Category existingCategory = categoryService.getOne(id)
+                .orElseThrow(() -> new NotFoundException("Categoría no encontrada."));
+
+        // Actualizar solo los campos proporcionados en el cuerpo de la solicitud
+        if (item.getName() != null) {
+            existingCategory.setName(item.getName());
+        }
+
+        // Modificar la entidad Category utilizando el servicio
+        categoryService.modify(existingCategory);
     }
 
     // Eliminar una categoría por su ID

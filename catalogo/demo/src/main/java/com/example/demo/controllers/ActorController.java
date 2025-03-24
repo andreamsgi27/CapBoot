@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.example.demo.DTOs.ActorDTO;
+import com.example.demo.DTOs.CategoryDTO;
 import com.example.demo.entities.Actor;
+import com.example.demo.entities.Category;
 import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
@@ -41,33 +44,62 @@ public class ActorController {
 
     // Obtener todos los actores
     @GetMapping
-    public List<Actor> getAll() {
-        return actorService.getAll();
+    public List<ActorDTO> getAll() {
+        return actorService.getAll().stream()
+                .map(actor -> new ActorDTO(actor.getActorId(), actor.getFirstName(), actor.getLastName()))
+                .toList();
     }
 
     // Obtener un actor por su ID
     @GetMapping("/{id}")
-    public Optional<Actor> getOne(@PathVariable Integer id) throws NotFoundException {
-        return actorService.getOne(id);
+    public ResponseEntity<ActorDTO> getOne(@PathVariable Integer id) throws NotFoundException {
+        Actor actor = actorService.getOne(id)
+                .orElseThrow(() -> new NotFoundException("Actor no encontrado con ID: " + id));
+
+        // Devolver la respuesta con el DTO de la categoría encontrada
+        return ResponseEntity.ok(new ActorDTO(actor.getActorId(), actor.getFirstName(), actor.getLastName()));
     }
 
     // Crear un nuevo actor
     @PostMapping
-    public ResponseEntity<Object> add(@Valid @RequestBody Actor item) throws DuplicateKeyException, InvalidDataException {
-        Actor newActor = actorService.add(item);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-            .buildAndExpand(newActor.getActorId()).toUri();
-        return ResponseEntity.created(location).build();
+    public ResponseEntity<ActorDTO> add(@Valid @RequestBody ActorDTO item) throws DuplicateKeyException, InvalidDataException {
+        Actor actor = new Actor(
+                item.getActorId(),
+                item.getFirstName(),
+                item.getLastName()
+        );
+
+        actor = actorService.add(actor);
+
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(actor.getActorId())
+                .toUri();
+
+        return ResponseEntity.created(location)
+                .body(new ActorDTO(actor.getActorId(), actor.getFirstName(), actor.getLastName()));
     }
 
     // Actualizar un actor existente
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@PathVariable Integer id, @Valid @RequestBody Actor item) throws BadRequestException, NotFoundException, InvalidDataException {
+    public void update(@PathVariable Integer id, @Valid @RequestBody ActorDTO item) throws BadRequestException, NotFoundException, InvalidDataException {
         if (!id.equals(item.getActorId())) {
             throw new BadRequestException("El ID en la URL y el ID en el cuerpo de la solicitud no coinciden.");
         }
-        actorService.modify(item);
+        Actor existingActor = actorService.getOne(id)
+                .orElseThrow(() -> new NotFoundException("Categoría no encontrada."));
+
+        // Actualizar solo los campos proporcionados en el cuerpo de la solicitud
+        if (item.getFirstName() != null) {
+            existingActor.setFirstName(item.getFirstName());
+        }
+        if (item.getLastName() != null) {
+            existingActor.setLastName(item.getLastName());
+        }
+
+        // Modificar la entidad Category utilizando el servicio
+        actorService.modify(existingActor);
     }
 
     // Eliminar un actor por su ID
