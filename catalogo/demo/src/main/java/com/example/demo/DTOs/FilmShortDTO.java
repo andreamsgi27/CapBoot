@@ -1,9 +1,6 @@
 package com.example.demo.DTOs;
 
-import java.math.BigDecimal;
-
 import com.example.demo.entities.Film;
-import com.example.demo.entities.Film.Rating;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 //import io.swagger.v3.oas.annotations.media.Schema;
@@ -11,13 +8,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 //@Schema(name = "Pelicula (Corto)", description = "Version corta de las peliculas")
 public record FilmShortDTO(
-		@JsonProperty("id") 
+		@JsonProperty("id")
 //		@Schema(description = "Identificador de la pelicula", accessMode = AccessMode.READ_ONLY)
 		int filmId,
 
 		@JsonProperty("titulo")
 //		@Schema(description = "Titulo de la pelicula")
-		String title) 
+		String title)
 {
 	public static FilmShortDTO from(Film source) {
 		return new FilmShortDTO(source.getFilmId(), source.getTitle());
