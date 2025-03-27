@@ -4,8 +4,6 @@ import java.util.List;
 
 import com.example.demo.entities.Category;
 import com.example.demo.entities.Language;
-import com.example.demo.DTOs.ActorDTO;
-import com.example.demo.DTOs.FilmDTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

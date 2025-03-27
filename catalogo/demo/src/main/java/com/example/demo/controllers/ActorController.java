@@ -3,8 +3,6 @@ package com.example.demo.controllers;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,9 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.example.demo.DTOs.ActorDTO;
-import com.example.demo.DTOs.CategoryDTO;
 import com.example.demo.entities.Actor;
-import com.example.demo.entities.Category;
 import com.example.demo.exceptions.BadRequestException;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;

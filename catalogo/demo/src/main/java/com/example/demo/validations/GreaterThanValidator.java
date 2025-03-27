@@ -13,6 +13,7 @@ public class GreaterThanValidator implements ConstraintValidator<GreaterThan, Ob
 		major = constraintAnnotation.major();
 		ConstraintValidator.super.initialize(constraintAnnotation);
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
 		if(value == null) return false;

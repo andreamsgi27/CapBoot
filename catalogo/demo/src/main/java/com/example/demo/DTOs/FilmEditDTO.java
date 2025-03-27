@@ -9,11 +9,6 @@ import com.example.demo.entities.Film;
 import com.example.demo.entities.Film.SpecialFeature;
 import com.example.demo.entities.Language;
 
-//import io.swagger.v3.oas.annotations.media.ArraySchema;
-//import io.swagger.v3.oas.annotations.media.Schema;
-//import io.swagger.v3.oas.annotations.media.Schema.AccessMode;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,6 @@
 package com.example.demo.DTOs;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 import com.example.demo.entities.Language;
 

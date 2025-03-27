@@ -2,18 +2,13 @@ package com.example.demo.services;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-
 import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
-import com.example.demo.entities.Film;
 import com.example.demo.entities.Language;
 import com.example.demo.exceptions.DuplicateKeyException;
 import com.example.demo.exceptions.InvalidDataException;
