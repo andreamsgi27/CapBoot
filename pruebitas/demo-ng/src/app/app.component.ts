@@ -18,3 +18,4 @@ export class AppComponent {
     out.error('mal');
   }
 }
+//Responsabilidad: escribir
