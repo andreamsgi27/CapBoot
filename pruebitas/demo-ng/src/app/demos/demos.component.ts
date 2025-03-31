@@ -1,15 +1,17 @@
 import { Component, computed, OnDestroy, OnInit, signal } from '@angular/core';
 import { Unsubscribable } from 'rxjs';
 import { NotificationService, NotificationType } from '../common-services';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-demos',
-  imports: [],
+  imports: [FormsModule, CommonModule],
   templateUrl: './demos.component.html',
   styleUrl: './demos.component.css',
 })
 
-export class DemosComponent implements OnInit, OnDestroy {
+export class DemosComponent {
   private fecha = new Date('2025-03-01'); //navegador == formato ISO año-mes-dia, el 'date' no lo entiende
   public readonly nombre = signal<string>('mundo')
   public readonly fontSize = signal<number>(30)
@@ -37,15 +39,15 @@ export class DemosComponent implements OnInit, OnDestroy {
   }
 
 saluda(){
-  this.resultado.set('Hola ${this.nombre()}')
+  this.resultado.set(`Hola ${this.nombre()}`)
 }
 
 despide(){
-  this.resultado.set('Adios ${this.nombre()}')
+  this.resultado.set(`Adios ${this.nombre()}`)
 }
 
 di(algo: string){
-  this.resultado.set('Dice ${algo}')
+  this.resultado.set(`Dice ${algo}`)
 }
 
 cambia(){

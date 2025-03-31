@@ -1,9 +1,48 @@
+<h1>Hola {{ nombre() }}</h1>
 <p>
-    <input type="button" value="Error" (click)="vm.add('Esto es una notificación de error')" >
-    <input type="button" value="Warn" (click)="vm.add('Esta notificación es un aviso', 
-    vm.NotificationType.warn)" >
-    <input type="button" value="Info" (click)="vm.add('Solo una notificación informativa', 
-    vm.NotificationType.info)" >
-    <input type="button" value="Log" (click)="vm.add('Para trazar con notificaciones', 
-    vm.NotificationType.log)" >
+    <input type="text" [(ngModel)]="nombre" placeholder="Escribe tu nombre" />
+    <input type="button" value="saludar" (click)="saluda()" />
+    <input type="button" value="despide" (click)="despide()" />
+    <input type="button" value="di algo" (click)="di('algo')" />
+    <input type="button" value="cambia" (click)="cambia()" />
+
+    <input type="button" value="Error" (click)="vm.add('Esto es una notificación de error')" />
+    <input type="button" value="Warn" (click)="vm.add('Esta notificación es un aviso', vm.NotificationType.warn)" />
+    <input type="button" value="Info" (click)="
+        vm.add('Solo una notificación informativa', vm.NotificationType.info)
+    " />
+    <input type="button" value="Log" (click)="vm.add('Para trazar con notificaciones', vm.NotificationType.log)" />
+</p>
+<p [textContent]="resultado()">esto se pierde</p>
+<p [innerHTML]="resultado()">esto se pierde</p>
+<p [hidden]="!visible()">ahora me ves</p>
+<p [hidden]="invisible()">ahora me ves</p>
+<p *ngIf="visible()">ahora existo con directiva</p>
+@if(visible()) {
+<p>ahora existo con flujo</p>
+}
+<p [ngClass]="estetica">
+    El sol se estaba poniendo sobre las montañas, tiñendo el cielo de tonos naranjas y morados. Un suave viento corría entre los árboles, creando un susurro que parecía contar historias de tiempos olvidados. En el horizonte, el pequeño pueblo comenzaba a encender sus luces, mientras las estrellas empezaban a brillar con fuerza en la vastedad del cielo nocturno. Todo parecía en paz, como si el mundo hubiera hecho una pausa para disfrutar de la tranquilidad de la tarde.
+</p>
+<p [class.semivisible]="invisible()">Ahora me ves bien</p>
+<p>Fecha: {{ Fecha }}</p>
+<p>Calcula: 2 + 2 = {{ 2 + 2 }} = {{ calcula(2, 2) }}</p>
+
+<ul>
+    @for(item of listado(); track item.id ) {
+    <li [style.background-color]="$odd ? 'Lightgreen' : 'Lightblue'">
+        {{ item.nombre }} ({{ item.id }}) [Elemento {{ $index + 1 }} de
+        {{ listado().length }}]
+    </li>
+    }
+</ul>
+<p>
+    <select [(ngModel)]="idProvincia">
+        @for(item of listado(); track item.id ) {
+        <option [value]="item.id">{{ item.nombre }}</option>
+        > }
+    </select>
+    Seleccionado: {{ idProvincia() }}
+    <input type="text" value="Gijón" #txtProvincia />
+    <input type="button" value="Añadir" (click)="add(txtProvincia.value)" />
 </p>
