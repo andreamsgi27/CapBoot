@@ -8,10 +8,12 @@ import { NotificationModalComponent } from './main/notification-modal/notificati
 import { HomeComponent } from './main/home/home.component';
 import { FormsComponent } from './forms/forms.component';
 import { AjaxWaitComponent, ajaxWaitInterceptor } from './main/ajax-wait';
+import { HeaderComponent } from "./main/header/header.component";
+import { FooterComponent } from "./main/footer/footer.component";
 
 @Component({
   selector: 'app-root',
-  imports:  [/* CommonModule, */ RouterOutlet, NotificationComponent /*, NotificationModalComponent */, FormsComponent, /* HomeComponent */ AjaxWaitComponent],
+  imports: [/* CommonModule, */ RouterOutlet, NotificationComponent /*, NotificationModalComponent, */ /* FormsComponent */, /* HomeComponent */ AjaxWaitComponent, HeaderComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

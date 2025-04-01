@@ -6,9 +6,11 @@
 <!-- * * * * * * * * * Delete the template below * * * * * * * * * -->
 <!-- * * * * * * * to get started with your project! * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
+<app-header/>
 <app-notification />
 <app-ajax-wait/>
 <main class="container-fluid">
-    <app-forms />
+    <router-outlet />
 </main>
 <router-outlet />
+<app-footer/>
