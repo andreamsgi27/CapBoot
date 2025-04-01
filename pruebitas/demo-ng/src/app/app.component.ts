@@ -7,10 +7,11 @@ import { DemosComponent } from './demos/demos.component';
 import { NotificationModalComponent } from './main/notification-modal/notification-modal.component';
 import { HomeComponent } from './main/home/home.component';
 import { FormsComponent } from './forms/forms.component';
+import { AjaxWaitComponent, ajaxWaitInterceptor } from './main/ajax-wait';
 
 @Component({
   selector: 'app-root',
-  imports:  [/* CommonModule, */ RouterOutlet, NotificationComponent /*, NotificationModalComponent */, FormsComponent, /* HomeComponent */],
+  imports:  [/* CommonModule, */ RouterOutlet, NotificationComponent /*, NotificationModalComponent */, FormsComponent, /* HomeComponent */ AjaxWaitComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
