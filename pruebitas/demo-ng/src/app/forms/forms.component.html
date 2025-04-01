@@ -4,31 +4,41 @@
     <input type="number" value="1" #txtId>
     <input type="button" value="edit" (click)="edit(+txtId.value)"> <!-- El + hace un parse automático-->
 </p>
-<form #myForm>
+<form #myForm="ngForm">
     <div>
         <label for="id">Id:</label>
         <input type="number" id="id" name="id" [(ngModel)]="elemento.id" #id="ngModel">
+        <output class="error" [hidden]="!id.hasError('required') || myForm.pristine">Es obligatorio</output><!--Mensajes de campo invalido + funcion colores-->
         <br><br>
 
         <label for="name">Nombre:</label>
-        <input type="text" id="name" name="name" [(ngModel)]="elemento.nombre" #nombre="ngModel">
-        <br><br>
+        <input type="text" id="name" name="name" [(ngModel)]="elemento.nombre" #nombre="ngModel"
+            required minlength="2" maxlength="20"> <!--Validaciones-->
+            <output class="error" [hidden]="!nombre.hasError('required')">Es Obligatorio</output>
+            <output class="error" [hidden]="!nombre.hasError('minlength') && !nombre.hasError('maxlength')">Debe tener entre 2 y 20 caracteres</output>
+        <br><br> <!--Hidden lo oculta hasta que da error-->
         
         <label for="correo">Email:</label>
-        <input type="email" id="correo" name="correo" [(ngModel)]="elemento.correo" #correo="ngModel">
-
+        <input type="email" id="correo" name="correo" [(ngModel)]="elemento.correo" #correo="ngModel"
+            required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$">
+            <output class="error" [hidden]="correo.valid">{{correo.errors | errormsg}}</output>
         <br><br>
         
         <label for="nif">NIF:</label>
-        <input type="text" id="nif" name="nif" [(ngModel)]="elemento.nif" #nif="ngModel">
+        <input type="text" id="nif" name="nif" [(ngModel)]="elemento.nif" #nif="ngModel"
+        pattern="^[XYZ0-9][0-9]{7}[A-HJ-NP-TV-Z]$">
+        <output class="error" [hidden]="nif.valid">{{nif.errors | errormsg:'Debe tener 8 dígitos y una letra mayúscula al final'}}</output>
         <br><br>
         
         <label for="fAlta">Fecha Alta:</label>
         <input type="date" id="fAlta" name="fAlta" [(ngModel)]="elemento.fAlta" #fAlta="ngModel">
+        <output class="error" [hidden]="fAlta.valid">{{fAlta.errors | errormsg}}</output>
         <br><br>
         
         <label for="edad">Edad:</label>
-        <input type="number" id="edad" name="edad" [(ngModel)]="elemento.edad" #edad="ngModel">
+        <input type="number" id="edad" name="edad" [(ngModel)]="elemento.edad" #edad="ngModel"
+        min="0" max="120">
+        <output class="error" [hidden]="edad.valid">{{edad.errors | errormsg}}</output>
         <br><br>
 
         <label for ="activo">Activo:</label>
@@ -37,7 +47,7 @@
 
     </div>
     <div>
-        <input type="button" value="enviar" (click)="send()">
+        <input type="button" value="enviar" (click)="send()" [disabled]="myForm.invalid">
         <input type="button" value="volver" (click)="cancel()">
     </div>
 </form>

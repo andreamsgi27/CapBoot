@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ErrorMessagePipe } from '@my/core';
+
 
 @Component({
   selector: 'app-forms',
-  imports: [FormsModule],
+  imports: [FormsModule, ErrorMessagePipe],
   templateUrl: './forms.component.html',
   styleUrl: './forms.component.css'
 })
