@@ -1,40 +1,41 @@
 import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
-export const ERROR_LEVEL = new InjectionToken<String>('ERROR_LEVEL');
 
-@Injectable({
-  providedIn: 'root'
-})
+export const ERROR_LEVEL = new InjectionToken<string>('ERROR_LEVEL')
+
+@Injectable(
+  //   {
+  //   providedIn: 'root'
+  // }
+)
 export class LoggerService {
-  private level: number = Number.MAX_VALUE;
+  private nivel: number = Number.MAX_VALUE;
 
-  constructor(@Inject(ERROR_LEVEL) @Optional() level? : number) {
-    if(level || level === 0)
-    this.level = level;
+  constructor(@Inject(ERROR_LEVEL) @Optional() nivel?: number) {
+    if (nivel || nivel === 0)
+      this.nivel = nivel;
   }
 
-  public log(msg: string) : void {
-    if(this.level > 0)
-    console.log(msg);
+  public error(message: string): void {
+    if (this.nivel > 0)
+      console.error(message);
   }
 
-  public warn(msg: string) : void {
-    if(this.level > 1)
-    console.warn(msg);
+  public warn(message: string): void {
+    if (this.nivel > 1)
+      console.warn(message);
   }
 
-  public info(msg: string) : void {
-    if(this.level > 2)
-      {
-        if(console.info)
-        console.info(msg);
+  public info(message: string): void {
+    if (this.nivel > 2) {
+      if (console.info)
+        console.info(message);
       else
-        console.log(msg);
+        console.log(message);
     }
   }
 
-  public error(msg: string) : void {
-    if(this.level > 3)
-    console.error(msg);
+  public log(message: string): void {
+    if (this.nivel > 3)
+      console.log(message);
   }
-
 }

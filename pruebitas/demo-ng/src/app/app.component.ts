@@ -9,12 +9,11 @@ import { HomeComponent } from './main/home/home.component';
 
 @Component({
   selector: 'app-root',
-  imports:  [CommonModule, RouterOutlet, NotificationComponent, NotificationModalComponent, DemosComponent, HomeComponent],
+  imports:  [/* CommonModule, */ RouterOutlet, NotificationComponent /*, NotificationModalComponent */, DemosComponent, /* HomeComponent */],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title : string = 'hola';
 
 /*   constructor(out: LoggerService) {
     out.log('hola');
