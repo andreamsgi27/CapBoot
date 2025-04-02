@@ -6,15 +6,18 @@ import { NotificationComponent } from './main/notification/notification.componen
 import { DemosComponent } from './demos/demos.component';
 import { NotificationModalComponent } from './main/notification-modal/notification-modal.component';
 import { HomeComponent } from './main/home/home.component';
+import { FormsComponent } from './forms/forms.component';
+import { AjaxWaitComponent, ajaxWaitInterceptor } from './main/ajax-wait';
+import { HeaderComponent } from "./main/header/header.component";
+import { FooterComponent } from "./main/footer/footer.component";
 
 @Component({
   selector: 'app-root',
-  imports:  [CommonModule, RouterOutlet, NotificationComponent, NotificationModalComponent, DemosComponent, HomeComponent],
+  imports: [/* CommonModule, */ RouterOutlet, NotificationComponent /*, NotificationModalComponent, */ /* FormsComponent */, /* HomeComponent */ AjaxWaitComponent, HeaderComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title : string = 'hola';
 
 /*   constructor(out: LoggerService) {
     out.log('hola');
