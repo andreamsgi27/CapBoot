@@ -1,0 +1,8 @@
+.display-1 {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #ff4c4c;
+    text-align: center;
+    margin-top: 20vh;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
