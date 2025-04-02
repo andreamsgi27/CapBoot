@@ -10,11 +10,10 @@ import { AjaxWaitComponent, ajaxWaitInterceptor } from './main/ajax-wait';
 import { HeaderComponent } from "./main/header/header.component";
 import { FooterComponent } from "./main/footer/footer.component";
 import { LoggerService } from '../lib/my-core/services/logger.service';
-import { ContactosComponent } from "./contactos/componente.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, HeaderComponent, NotificationComponent, AjaxWaitComponent, FooterComponent, ContactosComponent],
+  imports: [RouterOutlet, HeaderComponent, NotificationComponent, AjaxWaitComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

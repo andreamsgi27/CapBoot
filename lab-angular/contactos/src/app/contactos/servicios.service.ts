@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { LoggerService } from '../../lib/my-core/services/logger.service';
 import { NotificationService } from '../common-services/notification.service';
+import { Router } from '@angular/router';
 
 
 
@@ -58,12 +59,19 @@ export class ContactosViewModelService {
   protected listado: Array<any> = [];
   protected elemento: any = {};
   protected idOriginal: any = null;
+  protected listURL = '/contactos';
 
-  constructor(protected notify: NotificationService, protected out: LoggerService, protected dao: ContactosDAOService) {
-  }
+  constructor(protected notify: NotificationService, protected out: LoggerService,
+    protected dao: ContactosDAOService, protected router: Router) { }
+
+
   public get Modo(): ModoCRUD { return this.modo; }
   public get Listado(): Array<any> { return this.listado; }
   public get Elemento(): any { return this.elemento; }
+
+  public auth = {
+    isAuthenticated: false // Set the default value or update as needed
+  };
 
   public list(): void {
     this.dao.query().subscribe({
@@ -108,10 +116,11 @@ export class ContactosViewModelService {
   }
 
   public cancel(): void {
-    this.elemento = {};
-    this.idOriginal = null;
-    this.list();
+    this.clear()
+    // this.list();
+    this.router.navigateByUrl(this.listURL);
   }
+
   public send(): void {
     switch (this.modo) {
       case 'add':
@@ -139,22 +148,14 @@ export class ContactosViewModelService {
   }
 
   handleError(err: HttpErrorResponse) {
-    let msg = ''
     switch (err.status) {
-      case 0: msg = err.message; break;
-      case 404: msg = `ERROR ${err.status}: ${err.statusText}`; break;
+      case 404:
+        this.router.navigateByUrl('/404.html');
+        return;
       default:
-        msg = `ERROR ${err.status}: ${err.error?.['title'] ??
-          err.statusText}.${err.error?.['detail'] ? ` Detalles: ${err.error['detail']}` : ''}`
-        break;
+        this.notify.add('An unexpected error occurred.');
+        return;
     }
-    this.notify.add(msg)
   }
-
-
-
-
-
-
-}
+  }
 

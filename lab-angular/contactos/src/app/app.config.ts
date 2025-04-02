@@ -13,6 +13,6 @@ export const appConfig: ApplicationConfig = {
     { provide: ERROR_LEVEL, useValue: environment.ERROR_LEVEL },
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([ ajaxWaitInterceptor ])),
+    provideHttpClient(withInterceptors([ ajaxWaitInterceptor ]))
   ]
 };

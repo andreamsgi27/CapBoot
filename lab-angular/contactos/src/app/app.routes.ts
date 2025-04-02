@@ -2,6 +2,7 @@ import { Routes, UrlMatchResult, UrlSegment } from '@angular/router';
 import { HomeComponent, PageNotFoundComponent } from './main';
 import { DemosComponent } from './demos/demos.component';
 import { FormsComponent } from './forms/forms.component';
+import { ContactosListComponent, ContactosAddComponent, ContactosEditComponent, ContactosViewComponent } from './contactos';
 
 export function graphFiles(url: UrlSegment[]): UrlMatchResult | null {
     const path = url.map(segment => segment.path).join('/');
@@ -26,8 +27,21 @@ export const routes: Routes = [
         {path: ':id', component: FormsComponent}, //Delete by Id, Find by id?
         {path: ':id/:nombrejemplo', component: FormsComponent},
     ]},
+
+    { path: 'contactos', children: [
+        { path: '', component: ContactosListComponent},
+        { path: 'add', component: ContactosAddComponent},
+        { path: ':id/edit', component: ContactosEditComponent},
+        { path: ':id', component: ContactosViewComponent},
+        { path: ':id/:kk', component: ContactosViewComponent},
+        ]},
+
+    
     {matcher: graphFiles, loadComponent: () => import('./graph-svg/graph-svg.component') },
-    {path: 'config', loadChildren: () => import('./config/config.module').then(m => m.ConfigModule) }, //el then. no estaba
+    {path: 'config', loadChildren: () => import('./config/config.module').then(m => m.ConfigModule) }, 
+    
+    
+    //el then. no estaba
     {path: '404.html', component: PageNotFoundComponent},
     {path: '**', component: PageNotFoundComponent}
 ];
