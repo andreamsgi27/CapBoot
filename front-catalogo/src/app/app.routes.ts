@@ -19,8 +19,7 @@ export const routes: Routes = [
             { path: '', component: FilmsComponent },
             { path: 'add', component: FilmsComponent },
             { path: ':id/edit', component: FilmsComponent },
-            { path: ':id', component: FilmsComponent },
-            { path: ':id/:kk', component: FilmsComponent },
+            { path: ':id', component: FilmsComponent }
         ]
     },
     {
@@ -28,8 +27,7 @@ export const routes: Routes = [
             { path: '', component: CategoriesComponent },
             { path: 'add', component: CategoriesComponent },
             { path: ':id/edit', component: CategoriesComponent },
-            { path: ':id', component: CategoriesComponent },
-            { path: ':id/:kk', component: CategoriesComponent },
+            { path: ':id', component: CategoriesComponent }
         ]
     },
     {
@@ -37,8 +35,7 @@ export const routes: Routes = [
             { path: '', component: ActorsComponent },
             { path: 'add', component: ActorsComponent },
             { path: ':id/edit', component: ActorsComponent },
-            { path: ':id', component: ActorsComponent },
-            { path: ':id/:kk', component: ActorsComponent },
+            { path: ':id', component: ActorsComponent }
         ]
     },
     {
@@ -46,8 +43,7 @@ export const routes: Routes = [
             { path: '', component: LanguagesComponent },
             { path: 'add', component: LanguagesComponent },
             { path: ':id/edit', component: LanguagesComponent },
-            { path: ':id', component: LanguagesComponent },
-            { path: ':id/:kk', component: LanguagesComponent },
+            { path: ':id', component: LanguagesComponent }
         ]
     },
     { path: '404.html', component: PageNotFoundComponent },
