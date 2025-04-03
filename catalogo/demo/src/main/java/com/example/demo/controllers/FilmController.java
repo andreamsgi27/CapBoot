@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +41,8 @@ import com.example.demo.services.services.FilmService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/film")
+@CrossOrigin(origins = "http://localhost:4200")
+@RequestMapping("/api/films")
 public class FilmController {
 
     private final FilmService filmService;
@@ -57,7 +59,7 @@ public class FilmController {
     @GetMapping
     public List<FilmShortDTO> getAll() {
         return filmService.getAll().stream()
-                .map(film -> new FilmShortDTO(film.getFilmId(), film.getTitle()))
+                .map(film -> new FilmShortDTO(film.getFilmId(), film.getTitle(), film.getDescription()))
                 .toList();
     }
 
@@ -65,7 +67,7 @@ public class FilmController {
     @GetMapping("/sorted")
     public List<FilmShortDTO> getAllSorted(@RequestParam Sort sort) {
         return StreamSupport.stream(filmService.getAll(sort).spliterator(), false)
-                .map(film -> new FilmShortDTO(film.getFilmId(), film.getTitle()))
+                .map(film -> new FilmShortDTO(film.getFilmId(), film.getTitle(), film.getDescription()))
                 .toList();
     }
 

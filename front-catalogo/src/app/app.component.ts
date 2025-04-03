@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FooterComponent } from "./main/footer/footer.component";
-import { HeaderComponent } from "./main/header/header.component";
+import { FooterComponent, HeaderComponent } from './main';
+import { NavigationService } from './common-services';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, FooterComponent, HeaderComponent],
+  standalone: true,
+  imports: [RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'front-catalogo';
+  constructor(private _nav: NavigationService) { }
 }
