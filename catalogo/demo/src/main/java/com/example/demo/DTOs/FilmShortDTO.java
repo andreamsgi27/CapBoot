@@ -14,10 +14,13 @@ public record FilmShortDTO(
 
 		@JsonProperty("titulo")
 //		@Schema(description = "Titulo de la pelicula")
-		String title)
+		String title,
+		
+		@JsonProperty("descripcion")
+		String description)
 {
 	public static FilmShortDTO from(Film source) {
-		return new FilmShortDTO(source.getFilmId(), source.getTitle());
+		return new FilmShortDTO(source.getFilmId(), source.getTitle(), source.getDescription());
 	}
 
 	public static Film to(FilmShortDTO source) {
@@ -26,8 +29,9 @@ public record FilmShortDTO(
 		
 		// Ejemplo con valores predeterminados para los demás campos
 		return new Film(
-			source.filmId(), // mapeamos filmId del DTO a la entidad
-			source.title()
+			source.filmId(),
+			source.title(),
+			source.description()
 		);
 	}
 }

@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 export interface FilmShortDTO {
   id: number;
   titulo: string;
+  descripcion: string;
 }
 
 @Component({

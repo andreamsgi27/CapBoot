@@ -59,7 +59,7 @@ public class FilmController {
     @GetMapping
     public List<FilmShortDTO> getAll() {
         return filmService.getAll().stream()
-                .map(film -> new FilmShortDTO(film.getFilmId(), film.getTitle()))
+                .map(film -> new FilmShortDTO(film.getFilmId(), film.getTitle(), film.getDescription()))
                 .toList();
     }
 
@@ -67,7 +67,7 @@ public class FilmController {
     @GetMapping("/sorted")
     public List<FilmShortDTO> getAllSorted(@RequestParam Sort sort) {
         return StreamSupport.stream(filmService.getAll(sort).spliterator(), false)
-                .map(film -> new FilmShortDTO(film.getFilmId(), film.getTitle()))
+                .map(film -> new FilmShortDTO(film.getFilmId(), film.getTitle(), film.getDescription()))
                 .toList();
     }
 

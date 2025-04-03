@@ -220,10 +220,11 @@ public class Film extends AbstractEntity<Film> implements Serializable {
 		this.rentalDuration = rentalDuration;
     }
 
-	//añadido
-	public Film(int filmId, String title) {
+	//añadido para shortDTO
+	public Film(int filmId, String title, String description) {
 		this.filmId = filmId;
 		this.title = title;
+		this.description = description;
 	}
 
 	public Film(@NotBlank @Size(max = 128) String title, @NotNull Language language, @Positive byte rentalDuration,
