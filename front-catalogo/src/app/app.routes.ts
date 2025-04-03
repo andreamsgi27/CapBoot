@@ -1,9 +1,9 @@
 import { Routes, UrlSegment } from '@angular/router';
 import { HomeComponent, PageNotFoundComponent } from './main';
-import { CategoriesComponent } from './component/categories/categories.component';
-import { ActorsComponent } from './component/actors/actors.component';
-import { FilmsComponent } from './component/films/films.component';
-import { LanguagesComponent } from './component/languages/languages.component';
+import { CategoriesComponent } from './categories';
+import { FilmComponent } from './films';
+import { ActorsViewComponent } from './actors';
+import { LanguageComponent } from './languages';
 
 
 
@@ -16,10 +16,10 @@ export const routes: Routes = [
     { path: 'inicio', component: HomeComponent, },
     {
         path: 'films', children: [
-            { path: '', component: FilmsComponent },
-            { path: 'add', component: FilmsComponent },
-            { path: ':id/edit', component: FilmsComponent },
-            { path: ':id', component: FilmsComponent }
+            { path: '', component: FilmComponent },
+            { path: 'add', component: FilmComponent },
+            { path: ':id/edit', component: FilmComponent },
+            { path: ':id', component: FilmComponent }
         ]
     },
     {
@@ -32,18 +32,18 @@ export const routes: Routes = [
     },
     {
         path: 'actors', children: [
-            { path: '', component: ActorsComponent },
-            { path: 'add', component: ActorsComponent },
-            { path: ':id/edit', component: ActorsComponent },
-            { path: ':id', component: ActorsComponent }
+            { path: '', component: ActorsViewComponent },
+            { path: 'add', component: ActorsViewComponent },
+            { path: ':id/edit', component: ActorsViewComponent },
+            { path: ':id', component: ActorsViewComponent }
         ]
     },
     {
         path: 'languages', children: [
-            { path: '', component: LanguagesComponent },
-            { path: 'add', component: LanguagesComponent },
-            { path: ':id/edit', component: LanguagesComponent },
-            { path: ':id', component: LanguagesComponent }
+            { path: '', component: LanguageComponent },
+            { path: 'add', component: LanguageComponent },
+            { path: ':id/edit', component: LanguageComponent },
+            { path: ':id', component: LanguageComponent }
         ]
     },
     { path: '404.html', component: PageNotFoundComponent },
